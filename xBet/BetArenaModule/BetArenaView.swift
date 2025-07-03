@@ -175,10 +175,10 @@ struct BetArenaView: View {
             
             if showBetTraining {
                 BetTrainingView(isTapped: $isTapped, isFinish: $isFinish, showBetTraining: $showBetTraining)
-                    .frame(height: isTapped ? 900 : 390)
+                    .frame(height: isTapped ? 730 : 330)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
-                    .offset(y: 40)
+                    .offset(y: -35)
             }
             
             if isFinish {

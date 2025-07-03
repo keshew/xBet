@@ -31,7 +31,7 @@ struct BetTrainingView: View {
                             
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading) {
-                                    VStack(alignment: .leading, spacing: 10) {
+                                    VStack(alignment: .leading, spacing: 5) {
                                         Text("Arena name")
                                             .ProBold(size: 24)
                                         
@@ -43,7 +43,7 @@ struct BetTrainingView: View {
                                         .fill(Color(red: 58/255, green: 84/255, blue: 110/255))
                                         .frame(height: 1)
                                         .padding(.trailing, 10)
-                                        .padding(.top, 10)
+                                        .padding(.top, 5)
                                     
                                     VStack(alignment: .leading, spacing: 5) {
                                         Text("Training price:")
@@ -58,14 +58,14 @@ struct BetTrainingView: View {
                                         Text("10$ (just sparring)")
                                             .Pro(size: 14, color: Color(red: 196/255, green: 204/255, blue: 213/255))
                                     }
-                                    .padding(.top, 10)
+                                    .padding(.top, 5)
                                 }
                                 
                                 
                                 Image(.arenaImg)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .frame(width: 120, height: 210)
+                                    .frame(width: 120, height: 170)
                             }
                             .padding(.horizontal)
                             
@@ -79,6 +79,7 @@ struct BetTrainingView: View {
                                     .Pro(size: 14, color: Color(red: 139/255, green: 153/255, blue: 170/255))
                             }
                             .padding(.horizontal, 20)
+                            .padding(.top, 5)
                             
                             if isTapped {
                                 VStack {
@@ -98,7 +99,7 @@ struct BetTrainingView: View {
                                                         .Pro(size: 16)
                                                         .foregroundColor(.white)
                                                 }
-                                                .frame(height: 54)
+                                                .frame(height: 44)
                                                 .cornerRadius(12)
                                                 .onTapGesture {
                                                     selectedRecordDate = index
@@ -114,7 +115,7 @@ struct BetTrainingView: View {
                                                     .Pro(size: 16)
                                                     .foregroundColor(.white)
                                             }
-                                            .frame(height: 54)
+                                            .frame(height: 44)
                                             .cornerRadius(12)
                                             .onTapGesture {
                                                 selectedRecordDate = 2
@@ -122,7 +123,7 @@ struct BetTrainingView: View {
                                     }
                                 }
                                 .padding(.horizontal)
-                                .padding(.top)
+                                .padding(.top, 5)
                                 
                                 VStack {
                                     HStack {
@@ -142,7 +143,7 @@ struct BetTrainingView: View {
                                                             .Pro(size: 16)
                                                             .foregroundColor(.white)
                                                     }
-                                                    .frame(height: 54)
+                                                    .frame(height: 44)
                                                     .cornerRadius(12)
                                                     .onTapGesture {
                                                         selectedRecordingTime = index
@@ -160,7 +161,7 @@ struct BetTrainingView: View {
                                                             .Pro(size: 16)
                                                             .foregroundColor(.white)
                                                     }
-                                                    .frame(height: 54)
+                                                    .frame(height: 44)
                                                     .cornerRadius(12)
                                                     .onTapGesture {
                                                         selectedRecordingTime = index
@@ -170,7 +171,7 @@ struct BetTrainingView: View {
                                     }
                                 }
                                 .padding(.horizontal)
-                                .padding(.top)
+                                .padding(.top, 5)
                                 
                                 VStack {
                                     HStack {
@@ -189,20 +190,16 @@ struct BetTrainingView: View {
                                                         .Pro(size: 16)
                                                         .foregroundColor(.white)
                                                 }
-                                                .frame(height: 54)
+                                                .frame(height: 44)
                                                 .cornerRadius(12)
                                                 .onTapGesture {
                                                     selectedTrainingType = index
                                                 }
                                         }
                                     }
-                                    
-                                    Text("Payment at the place of training by cash or card")
-                                        .Pro(size: 14, color: Color(red: 139/255, green: 153/255, blue: 170/255))
-                                        .padding(.top)
                                 }
                                 .padding(.horizontal)
-                                .padding(.top)
+                                .padding(.top, 5)
                             }
                             
                             Button(action: {
@@ -225,7 +222,7 @@ struct BetTrainingView: View {
                                             .Pro(size: 21)
                                             .foregroundColor(.white)
                                     }
-                                    .frame(height: 54)
+                                    .frame(height: 44)
                                     .cornerRadius(16)
                                     .padding(.horizontal)
                             }

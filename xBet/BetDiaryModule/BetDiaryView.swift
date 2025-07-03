@@ -46,7 +46,7 @@ struct BetDiaryView: View {
                 
                 ScrollView {
                     VStack(spacing: 15) {
-                        ForEach(0..<2, id: \.self) { index in
+                        ForEach(0..<4, id: \.self) { index in
                             SwipeToDeleteRow {
                                 RoundedRectangle(cornerRadius: 16)
                                     .stroke(Color(red: 21/255, green: 147/255, blue: 232/255))
@@ -79,6 +79,8 @@ struct BetDiaryView: View {
                                 print("Delete item at index \(index)")
                             }
                         }
+                        
+                        Color.clear.frame(height: 80)
                     }
                 }
                 

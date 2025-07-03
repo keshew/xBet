@@ -53,7 +53,7 @@ struct BetMainView: View {
                                 }
                             }
                         }
-                        .frame(height: 150)
+                        .frame(height: 140)
                         .cornerRadius(16)
                         .padding(.horizontal)
                     
@@ -122,19 +122,20 @@ struct BetMainView: View {
 
                             }
                         }
-                        .frame(height: 190)
+                        .frame(height: 180)
                         .cornerRadius(16)
                         .padding(.horizontal)
                     
                     Image(.block3)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .frame(height: 280)
+                        .frame(height: 260)
                         .padding(.horizontal)
+                    
+                    Color.clear.frame(height: 30)
                 }
                 .padding(.top)
             }
-            .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
         }
     }
 }
