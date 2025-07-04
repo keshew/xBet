@@ -1,10 +1,16 @@
 import SwiftUI
 
 struct BetTrainView: View {
-    @StateObject var betTrainModel =  BetTrainViewModel()
+    @StateObject var betTrainModel = BetTrainViewModel()
     @State private var showAddScheduleView = false
     @State private var isTapped = false
     @State private var isFinish = false
+    
+    let userId = "user_686835ca2f1095.82273141"
+    
+    func formatDate(_ dateString: String) -> String {
+        return dateString
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -12,13 +18,12 @@ struct BetTrainView: View {
                 .ignoresSafeArea()
             
             ScrollView(showsIndicators: false) {
-                VStack {
+                VStack(spacing: 20) {
+                    
                     HStack {
-                        Text("Nearest arenas")
+                        Text("Your training")
                             .ProBold(size: 32)
-                        
                         Spacer()
-                        
                         Button(action: {
                             withAnimation {
                                 showAddScheduleView = true
@@ -31,30 +36,87 @@ struct BetTrainView: View {
                     }
                     .padding(.horizontal)
                     
-                    Rectangle()
-                        .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
-                        .overlay {
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color(red: 21/255, green: 147/255, blue: 232/255))
-                                .overlay {
-                                    HStack(spacing: 20) {
-                                        Text("Add schedule")
+                    if betTrainModel.practices.isEmpty {
+                        Rectangle()
+                            .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color(red: 21/255, green: 147/255, blue: 232/255))
+                                    .overlay {
+                                        HStack(spacing: 20) {
+                                            Text("There are no upcoming events or chats")
+                                                .ProBold(size: 20)
+                                            
+                                            Image("message")
+                                                .resizable()
+                                                .frame(width: 40, height: 40)
+                                        }
+                                    }
+                            }
+                            .frame(height: 100)
+                            .cornerRadius(16)
+                            .padding(.horizontal)
+                            .onTapGesture {
+                                betTrainModel.isMessageList = true
+                            }
+                    } else {
+                        Rectangle()
+                            .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color(red: 21/255, green: 147/255, blue: 232/255))
+                                
+                                VStack(spacing: 20) {
+                                    HStack {
+                                        Text("Events")
                                             .ProBold(size: 24)
                                         
-                                        Image(systemName: "plus")
-                                            .font(.system(size: 44, weight: .bold))
-                                            .foregroundStyle(.white)
+                                        Spacer()
+                                    }
+                                    .padding(.horizontal, 20)
+                                    
+                                    HStack {
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(spacing: 16) {
+                                                ForEach(betTrainModel.practices) { training in
+                                                    Color.clear
+                                                        .overlay {
+                                                            RoundedRectangle(cornerRadius: 16)
+                                                                .stroke(Color(red: 29/255, green: 65/255, blue: 104/255), lineWidth: 3)
+                                                                .overlay {
+                                                                    VStack(spacing: 20) {
+                                                                        HStack {
+                                                                            Text("Practice on \(training.dayOfWeek)")
+                                                                                .Pro(size: 23)
+                                                                            
+                                                                            Spacer()
+                                                                        }
+                                                                        
+                                                                        HStack {
+                                                                            Text("\(training.dayOfWeek)")
+                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                            Spacer()
+                                                                            Text("\(training.time)")
+                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                        }
+                                                                    }
+                                                                    .padding(.horizontal)
+                                                                }
+                                                        }
+                                                        .frame(width: 270, height: 100)
+                                                        .cornerRadius(16)
+                                                }
+                                            }
+                                        }
+                                        .padding(.horizontal)
+                                        
                                     }
                                 }
-                        }
-                        .frame(height: 200)
-                        .cornerRadius(16)
-                        .padding(.horizontal)
-                        .onTapGesture {
-                            withAnimation {
-                                showAddScheduleView = true
                             }
-                        }
+                            .frame(height: 180)
+                            .cornerRadius(16)
+                            .padding(.horizontal)
+                    }
                     
                     Rectangle()
                         .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
@@ -75,103 +137,20 @@ struct BetTrainView: View {
                         .frame(height: 100)
                         .cornerRadius(16)
                         .padding(.horizontal)
+                        .onTapGesture {
+                            betTrainModel.isMessageList = true
+                        }
                     
                     HStack {
                         Text("Sparring opponents")
                             .ProBold(size: 20)
                             .padding(.leading)
-                        
                         Spacer()
                     }
                     .padding(.top)
                     
                     VStack {
-                        HStack {
-                            Text("Filters")
-                                .Pro(size: 15)
-                                .padding(.leading)
-                            
-                            Spacer()
-                        }
-                        
-                        HStack {
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
-                                    Rectangle()
-                                        .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(red: 21/255, green: 147/255, blue: 232/255), lineWidth: 0.5)
-                                                .overlay {
-                                                    HStack(spacing: 10) {
-                                                        Text("All weapons")
-                                                            .Pro(size: 14)
-                                                        
-                                                        Image(systemName: "plus")
-                                                            .font(.system(size: 14, weight: .regular))
-                                                            .foregroundStyle(.white)
-                                                    }
-                                                }
-                                        }
-                                        .frame(width: 120, height: 30)
-                                        .cornerRadius(12)
-                                    
-                                    Rectangle()
-                                        .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(red: 21/255, green: 147/255, blue: 232/255), lineWidth: 0.5)
-                                                .overlay {
-                                                    HStack(spacing: 10) {
-                                                        Text("Minsk")
-                                                            .Pro(size: 14)
-                                                        
-                                                        Image(systemName: "plus")
-                                                            .font(.system(size: 14, weight: .regular))
-                                                            .foregroundStyle(.white)
-                                                    }
-                                                }
-                                        }
-                                        .frame(width: 90, height: 30)
-                                        .cornerRadius(12)
-                                    
-                                    Rectangle()
-                                        .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
-                                        .overlay {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .stroke(Color(red: 21/255, green: 147/255, blue: 232/255), lineWidth: 0.5)
-                                                .overlay {
-                                                    HStack(spacing: 10) {
-                                                        Text("Training level")
-                                                            .Pro(size: 14)
-                                                        
-                                                        Image(systemName: "plus")
-                                                            .font(.system(size: 14, weight: .regular))
-                                                            .foregroundStyle(.white)
-                                                    }
-                                                }
-                                        }
-                                        .frame(width: 120, height: 30)
-                                        .cornerRadius(12)
-                                    
-                                    Spacer()
-                                }
-                                .padding(.horizontal)
-                            }
-                        }
-                        
-                        HStack {
-                            Text("Найдено 24 соперника")
-                                .Pro(size: 12, color: Color(red: 86/255, green: 113/255, blue: 142/255))
-                                .padding(.leading)
-                            
-                            Spacer()
-                        }
-                    }
-                    .padding(.top, 10)
-                    
-                    VStack {
-                        ForEach(0..<4, id: \.self) { index in
+                        ForEach(betTrainModel.users.prefix(10)) { user in
                             Rectangle()
                                 .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
                                 .overlay {
@@ -181,25 +160,20 @@ struct BetTrainView: View {
                                             VStack(spacing: 15) {
                                                 HStack(alignment: .top, spacing: 15) {
                                                     HStack(spacing: 15) {
-                                                        Image(.avaOpponent)
+                                                        Image(user.picture == "" ? "ava6" : user.picture!)
                                                             .resizable()
                                                             .frame(width: 80, height: 80)
-                                                        
                                                         VStack(alignment: .leading, spacing: 10) {
-                                                            Text("Name opponents")
+                                                            Text(user.name)
                                                                 .ProBold(size: 22)
-                                                            
-                                                            Text("Professional level")
+                                                            Text(user.level)
                                                                 .Pro(size: 14, color: Color(red: 197/255, green: 207/255, blue: 214/255))
                                                         }
                                                     }
-                                                    
                                                     Spacer()
-                                                    
-                                                    Text("Rapier")
+                                                    Text(user.weapon)
                                                         .Pro(size: 14, color: Color(red: 197/255, green: 207/255, blue: 214/255))
                                                 }
-                                                
                                                 HStack {
                                                     Rectangle()
                                                         .fill(Color(red: 18/255, green: 46/255, blue: 74/255))
@@ -208,18 +182,21 @@ struct BetTrainView: View {
                                                                 Text("I'm ready to fight the best of the best!\nYou want to see what you can do?")
                                                                     .Pro(size: 14)
                                                                     .padding(.leading)
-                                                                
                                                                 Spacer()
                                                             }
                                                         }
                                                         .frame(height: 70)
                                                         .cornerRadius(16)
                                                         .padding(.trailing)
-                                                    
-                                                    Image("message")
-                                                        .resizable()
-                                                        .frame(width: 40, height: 40)
-                                                        .padding(.trailing)
+                                                    Button(action: {
+                                                        betTrainModel.selectedUser = user
+                                                        betTrainModel.isMessage = true
+                                                    }) {
+                                                        Image("message")
+                                                            .resizable()
+                                                            .frame(width: 40, height: 40)
+                                                            .padding(.trailing)
+                                                    }
                                                 }
                                             }
                                             .padding(.horizontal)
@@ -229,10 +206,9 @@ struct BetTrainView: View {
                                 .cornerRadius(16)
                                 .padding(.horizontal)
                         }
-                        
-                        Color.clear.frame(height: 80)
                     }
-                    .padding(.top)
+                    
+                    Color.clear.frame(height: 80)
                 }
                 .padding(.top)
             }
@@ -247,7 +223,6 @@ struct BetTrainView: View {
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
                     .offset(y: -40)
-                
             }
             
             if isFinish {
@@ -259,17 +234,23 @@ struct BetTrainView: View {
                     .padding(.bottom, 300)
                     .transition(.opacity)
                     .onAppear {
-                        hideModalAfterDelay()
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            withAnimation {
+                                isFinish = false
+                            }
+                        }
                     }
             }
         }
-    }
-    
-    func hideModalAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation {
-                isFinish = false
-            }
+        .fullScreenCover(isPresented: $betTrainModel.isMessage) {
+            BetChatView(user: betTrainModel.selectedUser ?? User(id: "", name: "", city: "", weapon: "", level: "", email: "", picture: ""))
+        }
+        .fullScreenCover(isPresented: $betTrainModel.isMessageList) {
+            BetChatListView()
+        }
+        .onAppear {
+            betTrainModel.loadPractices(userId: userId)
+            betTrainModel.loadUsers()
         }
     }
 }
@@ -277,4 +258,3 @@ struct BetTrainView: View {
 #Preview {
     BetTrainView()
 }
-

@@ -1,9 +1,12 @@
 import SwiftUI
 
 struct BetPostView: View {
-    @StateObject var betPostModel =  BetPostViewModel()
+    @StateObject var betPostModel = BetPostViewModel()
     @State private var isShow = false
     @State private var isFinish = false
+    @Environment(\.presentationMode) var presentationMode
+    let discussion: Discussion
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -13,7 +16,7 @@ struct BetPostView: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            
+                            presentationMode.wrappedValue.dismiss()
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 30))
@@ -35,24 +38,27 @@ struct BetPostView: View {
                         .overlay {
                             VStack(spacing: 15) {
                                 HStack {
-                                    Text("Post title")
+                                    Text(discussion.title)
                                         .ProBold(size: 22)
                                     
                                     Spacer()
                                 }
                                 
                                 HStack {
-                                    Text("Question from the forum. It's never too late to learn. And considering that the lower threshold at the veteran world championships is 50 years old, you have a good chance of winning gold. :-) You will master it in 30 ( 20, 10 ) years. And seriously, this is a question first of all to yourself. If you are interested and have an opportunity, what does age have to do with it?")
+                                    Text(discussion.text)
                                         .Pro(size: 18)
                                     
                                     Spacer()
                                 }
+                                
+                                Spacer()
                             }
                             .padding()
                         }
                         .frame(height: 280)
                         .cornerRadius(16)
                         .padding(.horizontal)
+                        .padding(.top)
                     
                     HStack {
                         Text("Comments on the post")
@@ -63,36 +69,41 @@ struct BetPostView: View {
                     .padding()
                     
                     VStack(spacing: 20) {
-                        ForEach(0..<8, id: \.self) { index in
+                        ForEach(betPostModel.comments) { comment in
                             VStack(spacing: 10) {
                                 HStack {
-                                    Text("Alex")
+                                    Text(comment.name)
                                         .ProBold(size: 18)
                                     
                                     Spacer()
                                     
-                                    Text("01.06.2025")
+                                    Text(Comment.dateFormatter.string(from: comment.dateSent))
                                         .Pro(size: 14, color: Color(red: 99/255, green: 125/255, blue: 151/255))
                                 }
                                 
                                 HStack {
-                                    Text("the text of a comment written by the user")
+                                    Text(comment.text)
                                         .Pro(size: 14)
-                                        .lineLimit(1)
+                                        .lineLimit(nil)
                                     
                                     Spacer()
                                 }
                                 
                                 Rectangle()
-                                    .fill(.gray.opacity(0.5))
+                                    .fill(Color.gray.opacity(0.5))
                                     .frame(height: 0.3)
                             }
                             .padding(.horizontal)
                         }
+                        
+                        Color.clear.frame(height: 70)
                     }
                 }
             }
             .blur(radius: isShow ? 5 : isFinish ? 5 : 0)
+            .onAppear {
+                betPostModel.loadComments(for: discussion.id)
+            }
             
             Button(action: {
                 withAnimation {
@@ -113,7 +124,7 @@ struct BetPostView: View {
             .blur(radius: isShow ? 5 : isFinish ? 5 : 0)
             
             if isShow {
-                BetNewCommentView(showAddTraining: $isShow, isFinish: $isFinish)
+                BetNewCommentView(showAddTraining: $isShow, isFinish: $isFinish, discussionId: discussion.id)
                     .frame(height: 520)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
@@ -130,6 +141,7 @@ struct BetPostView: View {
                     .transition(.opacity)
                     .onAppear {
                         hideModalAfterDelay()
+                        betPostModel.loadComments(for: discussion.id)
                     }
             }
         }
@@ -144,7 +156,8 @@ struct BetPostView: View {
     }
 }
 
+
 #Preview {
-    BetPostView()
+    BetPostView(discussion: Discussion(id: "", userId: "", title: "", text: "", dateAdded: Date()))
 }
 

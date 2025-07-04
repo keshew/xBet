@@ -15,6 +15,10 @@ struct BetChatView: View {
     @State private var text: String = ""
     @State private var show = false
     @State private var isFinish = false
+    @Environment(\.presentationMode) var presentationMode
+    let user: User
+    
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -22,7 +26,9 @@ struct BetChatView: View {
             
             VStack(spacing: 0) {
                 HStack {
-                    Button(action: {}) {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                    }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 30))
                             .foregroundStyle(.white)
@@ -37,18 +43,18 @@ struct BetChatView: View {
                 .padding(.top, 12)
                 
                 HStack(alignment: .top) {
-                    Image(.ava6)
+                    Image((user.picture == "" ? "ava6" : user.picture) ?? "ava3")
                         .resizable()
                         .frame(width: 60, height: 60)
                         .clipShape(Circle())
                     VStack(alignment: .leading, spacing: 5) {
-                        Text("Name opponents")
+                        Text(user.name)
                             .ProBold(size: 18)
-                        Text("Professional level")
+                        Text(user.level)
                             .Pro(size: 14, color: Color(red: 198/255, green: 209/255, blue: 217/255))
                     }
                     Spacer()
-                    Text("Rapier")
+                    Text(user.weapon)
                         .Pro(size: 14, color: Color(red: 198/255, green: 209/255, blue: 217/255))
                 }
                 .padding(.horizontal)
@@ -68,21 +74,21 @@ struct BetChatView: View {
                                         RoundedCornerShape(
                                             radius: 16,
                                             corners: message.isMe
-                                                ? [.topLeft, .topRight, .bottomLeft]
-                                                : [.topLeft, .topRight, .bottomRight]
+                                            ? [.topLeft, .topRight, .bottomLeft]
+                                            : [.topLeft, .topRight, .bottomRight]
                                         )
                                         .fill(
                                             message.isMe
-                                                ? Color(red: 56/255, green: 164/255, blue: 255/255)
-                                                : Color(red: 21/255, green: 52/255, blue: 83/255)
+                                            ? Color(red: 56/255, green: 164/255, blue: 255/255)
+                                            : Color(red: 21/255, green: 52/255, blue: 83/255)
                                         )
                                     )
                                     .overlay(
                                         RoundedCornerShape(
                                             radius: 16,
                                             corners: message.isMe
-                                                ? [.topLeft, .topRight, .bottomLeft]
-                                                : [.topLeft, .topRight, .bottomRight]
+                                            ? [.topLeft, .topRight, .bottomLeft]
+                                            : [.topLeft, .topRight, .bottomRight]
                                         )
                                         .stroke(Color(red: 56/255, green: 164/255, blue: 255/255), lineWidth: 0.5)
                                     )
@@ -158,18 +164,57 @@ struct BetChatView: View {
                     }
             }
         }
-    }
-    
-    func sendMessage() {
-        guard !text.isEmpty else { return }
-        messages.append(ChatMessage(text: text, isMe: true))
-        text = ""
+        .onAppear() {
+            loadMessages()
+        }
     }
     
     func hideModalAfterDelay() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 isFinish = false
+            }
+        }
+    }
+    
+    func loadMessages() {
+        NetworkManager().getMessages(userId: "user_686835ca2f1095.82273141", withUserId: user.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let messagesArray = json["messages"] as? [[String: Any]] {
+                        self.messages = messagesArray.compactMap { dict in
+                            guard let text = dict["text"] as? String,
+                                  let fromId = dict["from_user_id"] as? String else { return nil }
+                            return ChatMessage(text: text, isMe: fromId == "user_686835ca2f1095.82273141")
+                        }
+                    }
+                case .failure(let error):
+                    print("Failed to load messages: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func sendMessage() {
+        guard !text.isEmpty else { return }
+        let messageText = text
+        text = ""
+        
+        messages.append(ChatMessage(text: messageText, isMe: true))
+        
+        NetworkManager().sendMessage(fromUserId: "user_686835ca2f1095.82273141", toUserId: user.id, text: messageText, dateSent: ISO8601DateFormatter().string(from: Date())) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let success = json["success"] as? String {
+                        print("Message sent: \(success)")
+                    } else if let error = json["error"] as? String {
+                        print("Error sending message: \(error)")
+                    }
+                case .failure(let error):
+                    print("Failed to send message: \(error.localizedDescription)")
+                }
             }
         }
     }
@@ -190,7 +235,17 @@ struct RoundedCornerShape: Shape {
 }
 
 #Preview {
-    BetChatView()
+    let previewUser = User(
+        id: "user_12345",
+        name: "Ivan Ivanov",
+        city: "Moscow",
+        weapon: "Rapier",
+        level: "Professional",
+        email: "ivan@example.com",
+        picture: nil
+    )
+    
+    BetChatView(user: previewUser)
 }
 
 struct CustomTextFiled2: View {

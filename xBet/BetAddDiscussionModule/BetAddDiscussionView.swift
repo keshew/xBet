@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BetAddDiscussionView: View {
-    @StateObject var betAddDiscussionModel =  BetAddDiscussionViewModel()
+    @StateObject var betAddDiscussionModel = BetAddDiscussionViewModel()
 
     @Binding var showDiscussion: Bool
     @Binding var isFinish: Bool
@@ -12,6 +12,8 @@ struct BetAddDiscussionView: View {
     @State private var selectedIndex: Int? = nil
     @State private var showingPhotoPicker = false
     @State private var pickedImage: UIImage? = nil
+    
+    let userId = "user_686835ca2f1095.82273141"
     
     var body: some View {
         ZStack {
@@ -82,15 +84,12 @@ struct BetAddDiscussionView: View {
                                 .padding(.top)
                                 
                                 Button(action: {
-                                    withAnimation {
-                                        showDiscussion = false
-                                        isFinish = true
-                                    }
+                                    createDiscussion()
                                 }) {
                                     Rectangle()
                                         .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
                                         .overlay {
-                                            Text("Create discusstion")
+                                            Text("Create discussion")
                                                 .Pro(size: 21)
                                                 .foregroundColor(.white)
                                         }
@@ -111,11 +110,33 @@ struct BetAddDiscussionView: View {
     }
     
     private var formattedDate: String {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "dd.MM.yyyy"
-           return formatter.string(from: Date())
-       }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter.string(from: Date())
+    }
+    
+    private func createDiscussion() {
+        betAddDiscussionModel.addDiscussion(userId: userId, title: title, text: text, dateAdded: formattedDate) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let success = json["success"] as? String {
+                        print("Discussion created: \(success)")
+                        withAnimation {
+                            showDiscussion = false
+                            isFinish = true
+                        }
+                    } else if let error = json["error"] as? String {
+                        print("Error creating discussion: \(error)")
+                    }
+                case .failure(let error):
+                    print("Failed to create discussion: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
+
 
 #Preview {
     BetAddDiscussionView(showDiscussion: .constant(false), isFinish: .constant(false))

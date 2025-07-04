@@ -1,12 +1,14 @@
 import SwiftUI
 
 struct BetNewCommentView: View {
-    @StateObject var betNewCommentModel =  BetNewCommentViewModel()
+    @StateObject var betNewCommentModel = BetNewCommentViewModel()
     
     @Binding var showAddTraining: Bool
     @Binding var isFinish: Bool
     
     @State private var text = ""
+    
+    let discussionId: String
     
     var body: some View {
         ZStack {
@@ -45,10 +47,7 @@ struct BetNewCommentView: View {
                                 .padding(.top)
                                 
                                 Button(action: {
-                                    withAnimation {
-                                        showAddTraining = false
-                                        isFinish = true
-                                    }
+                                    submitComment()
                                 }) {
                                     Rectangle()
                                         .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
@@ -78,9 +77,33 @@ struct BetNewCommentView: View {
         formatter.dateFormat = "dd.MM.yyyy"
         return formatter.string(from: Date())
     }
+    
+    private func submitComment() {
+        betNewCommentModel.addComment(discussionId: discussionId, name: "UserName", text: text, dateSent: formattedDate) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let success = json["success"] as? String {
+                        print("Comment added: \(success)")
+                        withAnimation {
+                            showAddTraining = false
+                            isFinish = true
+                        }
+                    } else if let error = json["error"] as? String {
+                        print("Error adding comment: \(error)")
+                        // Можно добавить отображение ошибки пользователю
+                    }
+                case .failure(let error):
+                    print("Failed to add comment: \(error.localizedDescription)")
+                    // Можно добавить отображение ошибки пользователю
+                }
+            }
+        }
+    }
 }
 
+
 #Preview {
-    BetNewCommentView(showAddTraining: .constant(false), isFinish: .constant(false))
+    BetNewCommentView(showAddTraining: .constant(false), isFinish: .constant(false), discussionId: "")
 }
 

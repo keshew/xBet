@@ -74,6 +74,8 @@
 		865ED1F02E17DB7E00178A09 /* BetTrainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A62E17DB7E00178A09 /* BetTrainView.swift */; };
 		865ED1F12E17DB7E00178A09 /* BetTrainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A72E17DB7E00178A09 /* BetTrainViewModel.swift */; };
 		865ED1F22E17DB7E00178A09 /* xBetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1AD2E17DB7E00178A09 /* xBetApp.swift */; };
+		86E395A92E186285007DE238 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E395A42E186285007DE238 /* NetworkManager.swift */; };
+		86E395AA2E186285007DE238 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E395A62E186285007DE238 /* UserDefaultsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +148,8 @@
 		865ED1AC2E17DB7E00178A09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		865ED1AD2E17DB7E00178A09 /* xBetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xBetApp.swift; sourceTree = "<group>"; };
 		867AB3952E16F152002A539C /* xBet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xBet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		86E395A42E186285007DE238 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		86E395A62E186285007DE238 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +416,7 @@
 		865ED1AE2E17DB7E00178A09 /* xBet */ = {
 			isa = PBXGroup;
 			children = (
+				86E395A82E186285007DE238 /* Managers */,
 				865ED1532E17DB7E00178A09 /* BetAddDiscussionModule */,
 				865ED1572E17DB7E00178A09 /* BetAddNoteModule */,
 				865ED15B2E17DB7E00178A09 /* BetAddSheduleModule */,
@@ -456,6 +461,31 @@
 				867AB3952E16F152002A539C /* xBet.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		86E395A52E186285007DE238 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				86E395A42E186285007DE238 /* NetworkManager.swift */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		86E395A72E186285007DE238 /* UserDefaultsManager */ = {
+			isa = PBXGroup;
+			children = (
+				86E395A62E186285007DE238 /* UserDefaultsManager.swift */,
+			);
+			path = UserDefaultsManager;
+			sourceTree = "<group>";
+		};
+		86E395A82E186285007DE238 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				86E395A52E186285007DE238 /* NetworkManager */,
+				86E395A72E186285007DE238 /* UserDefaultsManager */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -559,6 +589,8 @@
 				865ED1CB2E17DB7E00178A09 /* BetDiaryViewModel.swift in Sources */,
 				865ED1CC2E17DB7E00178A09 /* BetDiscussionsModel.swift in Sources */,
 				865ED1CD2E17DB7E00178A09 /* BetDiscussionsView.swift in Sources */,
+				86E395A92E186285007DE238 /* NetworkManager.swift in Sources */,
+				86E395AA2E186285007DE238 /* UserDefaultsManager.swift in Sources */,
 				865ED1CE2E17DB7E00178A09 /* BetDiscussionsViewModel.swift in Sources */,
 				865ED1CF2E17DB7E00178A09 /* BetTextExtension.swift in Sources */,
 				865ED1D02E17DB7E00178A09 /* BetCustomButtons.swift in Sources */,

@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct BetSignView: View {
-    @StateObject var betSignModel =  BetSignViewModel()
-
+    @StateObject var betSignModel = BetSignViewModel()
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
     var body: some View {
         ZStack {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -11,7 +14,7 @@ struct BetSignView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        
+                        betSignModel.isLogin = true
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 30))
@@ -117,7 +120,7 @@ struct BetSignView: View {
                 
                 VStack(spacing: 15) {
                     Button(action: {
-                        
+                        register()
                     }) {
                         Rectangle()
                             .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
@@ -131,7 +134,7 @@ struct BetSignView: View {
                     }
                     
                     Button(action: {
-                        
+                        // Skip action if needed
                     }) {
                         Rectangle()
                             .fill(.clear)
@@ -150,21 +153,74 @@ struct BetSignView: View {
                         Text("Do you have an account?")
                             .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
                         
-                        VStack(spacing: 3) {
-                            Text("Log in")
-                                .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
-                            
-                            Rectangle()
-                                .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
-                                .frame(width: 40, height: 1)
-                                .cornerRadius(16)
+                        Button(action: {
+                            betSignModel.isLogin = true
+                        }) {
+                            VStack(spacing: 3) {
+                                Text("Log in")
+                                    .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                
+                                Rectangle()
+                                    .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                    .frame(width: 40, height: 1)
+                                    .cornerRadius(16)
+                            }
                         }
                     }
                 }
             }
         }
+        .fullScreenCover(isPresented: $betSignModel.isLogin) {
+            BetLoginView()
+        }
+        .fullScreenCover(isPresented: $betSignModel.isTab) {
+            BetTabBarView()
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    private func register() {
+        if betSignModel.name.isEmpty ||
+            betSignModel.city.isEmpty ||
+            betSignModel.weaponType.isEmpty ||
+            betSignModel.level.isEmpty ||
+            betSignModel.email.isEmpty ||
+            betSignModel.password.isEmpty {
+            
+            alertMessage = "Please fill in all fields."
+            showAlert = true
+            return
+        }
+        
+        NetworkManager().registration(
+            name: betSignModel.name,
+            city: betSignModel.city,
+            weapon: betSignModel.weaponType,
+            level: betSignModel.level,
+            email: betSignModel.email,
+            password: betSignModel.password,
+            picture: ""
+        ) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        alertMessage = error
+                        showAlert = true
+                    } else {
+                        betSignModel.isTab = true
+                    }
+                case .failure(let error):
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
     }
 }
+
 
 #Preview {
     BetSignView()

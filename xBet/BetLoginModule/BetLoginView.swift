@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct BetLoginView: View {
-    @StateObject var betLoginModel =  BetLoginViewModel()
-
+    @StateObject var betLoginModel = BetLoginViewModel()
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    
     var body: some View {
         ZStack {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -12,7 +15,7 @@ struct BetLoginView: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            
+                            betLoginModel.isSign = true
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 30))
@@ -67,7 +70,7 @@ struct BetLoginView: View {
                     
                     VStack(spacing: 15) {
                         Button(action: {
-                            
+                            login()
                         }) {
                             Rectangle()
                                 .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
@@ -81,7 +84,7 @@ struct BetLoginView: View {
                         }
                         
                         Button(action: {
-                            
+                            // Skip action if needed
                         }) {
                             Rectangle()
                                 .fill(.clear)
@@ -100,14 +103,18 @@ struct BetLoginView: View {
                             Text("Don't have an account?")
                                 .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
                             
-                            VStack(spacing: 3) {
-                                Text("Sign Up")
-                                    .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
-                                
-                                Rectangle()
-                                    .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
-                                    .frame(width: 60, height: 1)
-                                    .cornerRadius(16)
+                            Button(action: {
+                                betLoginModel.isSign = true
+                            }) {
+                                VStack(spacing: 3) {
+                                    Text("Sign Up")
+                                        .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                    
+                                    Rectangle()
+                                        .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                        .frame(width: 60, height: 1)
+                                        .cornerRadius(16)
+                                }
                             }
                         }
                     }
@@ -116,100 +123,44 @@ struct BetLoginView: View {
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
         }
+        .fullScreenCover(isPresented: $betLoginModel.isSign) {
+            BetSignView()
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
+    }
+    
+    private func login() {
+        if betLoginModel.email.isEmpty || betLoginModel.password.isEmpty {
+            alertMessage = "Please fill in all fields."
+            showAlert = true
+            return
+        }
+        
+        NetworkManager().login(email: betLoginModel.email, password: betLoginModel.password) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        alertMessage = error
+                        showAlert = true
+                    } else if let _ = json["user"] as? [String: Any] {
+                        betLoginModel.isTab = true
+                    } else {
+                        alertMessage = "Unexpected response from server."
+                        showAlert = true
+                    }
+                case .failure(let error):
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
     }
 }
+
 
 #Preview {
     BetLoginView()
-}
-
-struct CustomTextFiled: View {
-    @Binding var text: String
-    @FocusState var isTextFocused: Bool
-    var placeholder: String
-    var body: some View {
-        ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color(red: 24/255, green: 58/255, blue: 93/255))
-                .frame(height: 57)
-                .cornerRadius(12)
-                .padding(.horizontal, 15)
-            
-            TextField("", text: $text, onEditingChanged: { isEditing in
-                if !isEditing {
-                    isTextFocused = false
-                }
-            })
-            .autocorrectionDisabled()
-            .textInputAutocapitalization(.never)
-            .padding(.horizontal, 16)
-            .frame(height: 47)
-            .font(.custom("SFProDisplay-Regular", size: 15))
-            .cornerRadius(9)
-            .foregroundStyle(.white)
-            .focused($isTextFocused)
-            .padding(.horizontal, 15)
-            
-            if text.isEmpty && !isTextFocused {
-                Text(placeholder)
-                    .Pro(size: 16, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                    .frame(height: 57)
-                    .padding(.leading, 30)
-                    .onTapGesture {
-                        isTextFocused = true
-                    }
-            }
-        }
-    }
-}
-
-struct CustomSecureField: View {
-    @Binding var text: String
-    @FocusState var isTextFocused: Bool
-    var placeholder: String
-    
-    @State private var isSecure: Bool = true
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color(red: 24/255, green: 58/255, blue: 93/255))
-                .frame(height: 57)
-                .cornerRadius(12)
-                .padding(.horizontal, 15)
-            
-            HStack {
-                if isSecure {
-                    SecureField("", text: $text)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                        .font(.custom("SFProDisplay-Regular", size: 16))
-                        .foregroundStyle(.white)
-                        .focused($isTextFocused)
-                } else {
-                    TextField("", text: $text)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                        .font(.custom("SFProDisplay-Regular", size: 16))
-                        .foregroundStyle(.white)
-                        .focused($isTextFocused)
-                }
-            }
-            .padding(.horizontal, 16)
-            .frame(height: 57)
-            .cornerRadius(9)
-            .padding(.horizontal, 15)
-            
-            if text.isEmpty && !isTextFocused {
-                Text(placeholder)
-                    .font(.custom("SFProDisplay-Regular", size: 16))
-                    .foregroundColor(Color(red: 141/255, green: 160/255, blue: 179/255))
-                    .frame(height: 57)
-                    .padding(.leading, 30)
-                    .onTapGesture {
-                        isTextFocused = true
-                    }
-            }
-        }
-    }
 }

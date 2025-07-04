@@ -13,9 +13,7 @@ struct BetAddSheduleView: View {
     
     let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
-    var isButtonEnabled: Bool {
-        !selectedRecordingTimes.isEmpty
-    }
+    var isButtonEnabled: Bool { !selectedRecordingTimes.isEmpty }
     
     var body: some View {
         ZStack {
@@ -60,6 +58,7 @@ struct BetAddSheduleView: View {
                                                     .onTapGesture {
                                                         if selectedRecordingTimes.contains(index) {
                                                             selectedRecordingTimes.remove(index)
+                                                            selectedTimes[index] = nil
                                                         } else {
                                                             selectedRecordingTimes.insert(index)
                                                         }
@@ -82,6 +81,7 @@ struct BetAddSheduleView: View {
                                                     .onTapGesture {
                                                         if selectedRecordingTimes.contains(index) {
                                                             selectedRecordingTimes.remove(index)
+                                                            selectedTimes[index] = nil
                                                         } else {
                                                             selectedRecordingTimes.insert(index)
                                                         }
@@ -104,6 +104,7 @@ struct BetAddSheduleView: View {
                                                     .onTapGesture {
                                                         if selectedRecordingTimes.contains(index) {
                                                             selectedRecordingTimes.remove(index)
+                                                            selectedTimes[index] = nil
                                                         } else {
                                                             selectedRecordingTimes.insert(index)
                                                         }
@@ -174,11 +175,7 @@ struct BetAddSheduleView: View {
                                 
                                 Button(action: {
                                     if isTapped {
-                                        withAnimation {
-                                            isFinish = true
-                                            isTapped = false
-                                            showAddScheduleView = false
-                                        }
+                                        savePractice()
                                     } else {
                                         withAnimation {
                                             isTapped = true
@@ -241,7 +238,47 @@ struct BetAddSheduleView: View {
         }
         .cornerRadius(16)
     }
+    
+    private func savePractice() {
+        guard !selectedRecordingTimes.isEmpty else { return }
+        
+        let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        
+        let practices = selectedRecordingTimes.compactMap { index -> [String: String]? in
+            guard let time = selectedTimes[index] else { return nil }
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            let timeString = formatter.string(from: time)
+            return [
+                "day_of_week": daysOfWeek[index],
+                "time": timeString
+            ]
+        }
+        
+        //MARK: - change
+        let userId = "user_686835ca2f1095.82273141"
+        
+        NetworkManager().addPractice(userId: userId, practices: practices) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        print("Error adding practice: \(error)")
+                    } else {
+                        withAnimation {
+                            isFinish = true
+                            isTapped = false
+                            showAddScheduleView = false
+                        }
+                    }
+                case .failure(let error):
+                    print("Failed to add practice: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
+
 
 #Preview {
     BetAddSheduleView(isTapped: .constant(false), isFinish: .constant(false), showAddScheduleView: .constant(false))

@@ -1,8 +1,8 @@
 import SwiftUI
 
 struct BetMainView: View {
-    @StateObject var betMainModel =  BetMainViewModel()
-
+    @StateObject var betMainModel = BetMainViewModel()
+    
     var body: some View {
         ZStack {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -17,7 +17,7 @@ struct BetMainView: View {
                         Spacer()
                         
                         Button(action: {
-                            
+                            betMainModel.isSettings = true
                         }) {
                             Image(systemName: "gearshape.fill")
                                 .font(.system(size: 30))
@@ -46,7 +46,6 @@ struct BetMainView: View {
                                 HStack {
                                     Text("There are no upcoming meetings as of yet.\nCreate one in your calendar and it will show up\nhere for a reminder")
                                         .Pro(size: 16, color: Color(red: 191/255, green: 194/255, blue: 195/255))
-                                    
                                         .padding(.leading, 20)
                                     
                                     Spacer()
@@ -79,65 +78,90 @@ struct BetMainView: View {
                                 .padding(.horizontal, 20)
                                 
                                 HStack {
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack(spacing: 16) {
-                                            ForEach(0..<3, id: \.self) { index in
-                                                Image(.calendarTrainingImg)
-                                                    .resizable()
-                                                    .overlay {
-                                                        RoundedRectangle(cornerRadius: 16)
-                                                            .stroke(Color(red: 29/255, green: 65/255, blue: 104/255))
-                                                            .overlay {
-                                                                VStack(spacing: 8) {
-                                                                    HStack {
-                                                                        Text("Training with Alexandr")
-                                                                            .Pro(size: 23)
-                                                                        Spacer()
+                                    if betMainModel.trainings.isEmpty {
+                                        Text("Create your first train!")
+                                            .ProBold(size: 24)
+                                            .padding(.horizontal)
+                                            .frame(height: 100, alignment: .center)
+                                    } else {
+                                        ScrollView(.horizontal, showsIndicators: false) {
+                                            HStack(spacing: 16) {
+                                                ForEach(betMainModel.trainings) { training in
+                                                    Image(.calendarTrainingImg)
+                                                        .resizable()
+                                                        .overlay {
+                                                            RoundedRectangle(cornerRadius: 16)
+                                                                .stroke(Color(red: 29/255, green: 65/255, blue: 104/255))
+                                                                .overlay {
+                                                                    VStack(spacing: 8) {
+                                                                        HStack {
+                                                                            Text("\(training.arenaName)")
+                                                                                .Pro(size: 23)
+                                                                            Spacer()
+                                                                        }
+                                                                        
+                                                                        HStack {
+                                                                            Text(formatDate(training.recordDate))
+                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                            Spacer()
+                                                                            Text(training.recordTime)
+                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                        }
+                                                                        
+                                                                        HStack {
+                                                                            Text(training.address)
+                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                            Spacer()
+                                                                        }
                                                                     }
-
-                                                                    HStack {
-                                                                        Text("24.06")
-                                                                            .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
-                                                                        Spacer()
-                                                                        Text("19:30")
-                                                                            .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
-                                                                    }
-
-                                                                    HStack {
-                                                                        Text("Milskshake str.32")
-                                                                            .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
-                                                                        Spacer()
-                                                                    }
+                                                                    .padding(.horizontal)
                                                                 }
-                                                                .padding(.horizontal)
-                                                            }
-                                                    }
-                                                    .frame(width: 270, height: 100)
-                                                    .cornerRadius(16)
+                                                        }
+                                                        .frame(width: 270, height: 100)
+                                                        .cornerRadius(16)
+                                                }
                                             }
                                         }
+                                        .padding(.horizontal)
                                     }
                                 }
-                                .padding(.horizontal)
-
                             }
                         }
                         .frame(height: 180)
                         .cornerRadius(16)
                         .padding(.horizontal)
                     
-                    Image(.block3)
-                        .resizable()
-                        .frame(height: 270)
-                        .padding(.horizontal)
+                    Button(action: {
+                        betMainModel.isDiscussion = true
+                    }) {
+                        Image(.block3)
+                            .resizable()
+                            .frame(height: 270)
+                            .padding(.horizontal)
+                    }
                     
                     Color.clear.frame(height: 30)
                 }
                 .padding(.top)
             }
         }
+        .fullScreenCover(isPresented: $betMainModel.isDiscussion) {
+            BetDiscussionsView()
+        }
+        .fullScreenCover(isPresented: $betMainModel.isSettings) {
+            BetSettingsView()
+        }
+    }
+    
+    func formatDate(_ isoDate: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard let date = formatter.date(from: isoDate) else { return isoDate }
+        formatter.dateFormat = "dd.MM"
+        return formatter.string(from: date)
     }
 }
+
 
 #Preview {
     BetMainView()

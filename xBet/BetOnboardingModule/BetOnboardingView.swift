@@ -2,7 +2,7 @@ import SwiftUI
 
 struct BetOnboardingView: View {
     @StateObject var betOnboardingModel =  BetOnboardingViewModel()
-
+    
     var body: some View {
         ZStack {
             Image(.onb)
@@ -17,7 +17,7 @@ struct BetOnboardingView: View {
                     
                     VStack(spacing: 15) {
                         Button(action: {
-                            
+                            betOnboardingModel.isLog = true
                         }) {
                             Rectangle()
                                 .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
@@ -31,7 +31,7 @@ struct BetOnboardingView: View {
                         }
                         
                         Button(action: {
-                            
+                            betOnboardingModel.isSign = true
                         }) {
                             Rectangle()
                                 .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
@@ -44,21 +44,31 @@ struct BetOnboardingView: View {
                                 .padding(.horizontal)
                         }
                         
-                        VStack(spacing: 5) {
-                            Text("Continue with guest access")
-                                .Pro(size: 21, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                        Button(action: {
                             
-                            Rectangle()
-                                .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
-                                .frame(height: 1)
-                                .cornerRadius(16)
-                                .padding(.horizontal, 100)
+                        }) {
+                            VStack(spacing: 5) {
+                                Text("Continue with guest access")
+                                    .Pro(size: 21, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                
+                                Rectangle()
+                                    .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                    .frame(height: 1)
+                                    .cornerRadius(16)
+                                    .padding(.horizontal, 100)
+                            }
                         }
                     }
                 }
                 .padding(.top, 450)
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
+        }
+        .fullScreenCover(isPresented: $betOnboardingModel.isLog) {
+            BetLoginView()
+        }
+        .fullScreenCover(isPresented: $betOnboardingModel.isSign) {
+            BetSignView()
         }
     }
 }

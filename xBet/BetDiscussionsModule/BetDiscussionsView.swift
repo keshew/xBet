@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct BetDiscussionsView: View {
-    @StateObject var betDiscussionsModel =  BetDiscussionsViewModel()
+    @StateObject var betDiscussionsModel = BetDiscussionsViewModel()
     @State private var showDiscussion = false
     @State private var isFinish = false
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -14,7 +15,7 @@ struct BetDiscussionsView: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            
+                            presentationMode.wrappedValue.dismiss()
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 30))
@@ -31,78 +32,51 @@ struct BetDiscussionsView: View {
                     }
                     .padding(.horizontal)
                     
-                    HStack {
-                        Text("New discussion")
-                            .ProBold(size: 18)
-                            .padding(.leading)
+                    if !betDiscussionsModel.newDiscussions.isEmpty {
+                        HStack {
+                            Text("New discussion")
+                                .ProBold(size: 18)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        .padding(.top)
                         
-                        Spacer()
-                    }
-                    .padding(.top)
-                    
-                    VStack(spacing: 15) {
-                        ForEach(0..<6, id: \.self) { index in
-                            VStack {
-                                HStack {
-                                    Image(.ava2)
-                                        .resizable()
-                                        .frame(width: 60, height: 60)
-                                    
-                                    Text("Post title")
-                                        .Pro(size: 18)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "envelope.fill")
-                                        .font(.system(size: 24))
-                                        .foregroundStyle(.white)
-                                }
-                                
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.5))
-                                    .frame(height: 0.8)
+                        VStack(spacing: 15) {
+                            ForEach(betDiscussionsModel.newDiscussions) { discussion in
+                                DiscussionRow(discussion: discussion)
+                                    .onTapGesture {
+                                           betDiscussionsModel.selectedDiscussion = discussion
+                                           betDiscussionsModel.isPost = true
+                                       }
                             }
-                            .padding(.horizontal)
                         }
                     }
                     
-                    HStack {
-                        Text("All discussion")
-                            .ProBold(size: 18)
-                            .padding(.leading)
+                    if !betDiscussionsModel.allDiscussions.isEmpty {
+                        HStack {
+                            Text("All discussion")
+                                .ProBold(size: 18)
+                                .padding(.leading)
+                            Spacer()
+                        }
+                        .padding(.top)
                         
-                        Spacer()
-                    }
-                    .padding(.top)
-                    
-                    VStack(spacing: 15) {
-                        ForEach(0..<6, id: \.self) { index in
-                            VStack {
-                                HStack {
-                                    Image(.ava2)
-                                        .resizable()
-                                        .frame(width: 60, height: 60)
-                                    
-                                    Text("Post title")
-                                        .Pro(size: 18)
-                                    
-                                    Spacer()
-                                    
-                                    Image(systemName: "envelope.fill")
-                                        .font(.system(size: 24))
-                                        .foregroundStyle(.white)
-                                }
-                                
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.5))
-                                    .frame(height: 0.8)
+                        VStack(spacing: 15) {
+                            ForEach(betDiscussionsModel.allDiscussions) { discussion in
+                                DiscussionRow(discussion: discussion)
+                                    .onTapGesture {
+                                           betDiscussionsModel.selectedDiscussion = discussion
+                                           betDiscussionsModel.isPost = true
+                                       }
                             }
-                            .padding(.horizontal)
                         }
                     }
                 }
             }
             .blur(radius: showDiscussion ? 5 : isFinish ? 5 : 0)
+            .onAppear {
+                betDiscussionsModel.loadDiscussions()
+            }
             
             Button(action: {
                 withAnimation {
@@ -149,6 +123,9 @@ struct BetDiscussionsView: View {
                     }
             }
         }
+        .fullScreenCover(isPresented: $betDiscussionsModel.isPost) {
+            BetPostView(discussion: betDiscussionsModel.selectedDiscussion ?? Discussion(id: "", userId: "", title: "", text: "", dateAdded: Date()))
+        }
     }
     
     func hideModalAfterDelay() {
@@ -159,6 +136,35 @@ struct BetDiscussionsView: View {
         }
     }
 }
+
+struct DiscussionRow: View {
+    let discussion: Discussion
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Image(.ava2)
+                    .resizable()
+                    .frame(width: 60, height: 60)
+                
+                Text(discussion.title)
+                    .Pro(size: 18)
+                
+                Spacer()
+                
+                Image(systemName: "envelope.fill")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.white)
+            }
+            
+            Rectangle()
+                .fill(Color.gray.opacity(0.5))
+                .frame(height: 0.8)
+        }
+        .padding(.horizontal)
+    }
+}
+
 
 #Preview {
     BetDiscussionsView()

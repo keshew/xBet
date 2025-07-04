@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct BetTrainingView: View {
-    @StateObject var betTrainingModel =  BetTrainingViewModel()
+    @StateObject var betTrainingModel = BetTrainingViewModel()
     @Binding var isTapped: Bool
     @Binding var isFinish: Bool
     @Binding var showBetTraining: Bool
@@ -9,6 +9,9 @@ struct BetTrainingView: View {
     @State private var selectedRecordDate: Int? = nil
     @State private var selectedRecordingTime: Int? = nil
     @State private var selectedTrainingType: Int? = nil
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     var isButtonEnabled: Bool {
         selectedRecordDate != nil && selectedRecordingTime != nil && selectedTrainingType != nil
@@ -204,11 +207,7 @@ struct BetTrainingView: View {
                             
                             Button(action: {
                                 if isTapped {
-                                    withAnimation {
-                                        isFinish = true
-                                        isTapped = false
-                                        showBetTraining = false
-                                    }
+                                    addTraining()
                                 } else {
                                     withAnimation {
                                         isTapped = true
@@ -235,8 +234,65 @@ struct BetTrainingView: View {
                     }
             }
             .cornerRadius(16)
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            }
+    }
+    
+    private func addTraining() {
+        guard let recordDateIndex = selectedRecordDate,
+              let recordingTimeIndex = selectedRecordingTime,
+              let trainingTypeIndex = selectedTrainingType else {
+            alertMessage = "Please select date, time and training type."
+            showAlert = true
+            return
+        }
+        
+        let recordDates = ["2025-07-07", "2025-07-09", "2025-07-11"]
+        let recordingTimes = ["17:00 - 18:00", "18:00 - 19:00", "19:00 - 20:00", "20:00 - 21:00", "21:00 - 21:40"]
+        let trainingTypes = ["Regular", "Advanced", "Just sparring"]
+        
+        let selectedDate = recordDates[recordDateIndex]
+        let selectedTime = recordingTimes[recordingTimeIndex]
+        let selectedType = trainingTypes[trainingTypeIndex]
+        
+        
+        //MARK: - ПОМЕНЯТЬ НА НАСТОЙЩИЙ!
+        let userId = "user_686835ca2f1095.82273141"
+        
+        
+        NetworkManager().addTraining(
+            userId: userId,
+            arenaName: "ALEX ARENA",
+            trainerName: "TEM4ik!",
+            address: "Burga Street 21",
+            arenaHours: "9:00 - 21:00",
+            recordTime: selectedTime,
+            recordDate: selectedDate,
+            trainingType: selectedType
+        ) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        alertMessage = error
+                        showAlert = true
+                    } else {
+                        withAnimation {
+                            isFinish = true
+                            isTapped = false
+                            showBetTraining = false
+                        }
+                    }
+                case .failure(let error):
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
     }
 }
+
 
 #Preview {
     BetTrainingView(isTapped: .constant(false), isFinish: .constant(false), showBetTraining: .constant(false))

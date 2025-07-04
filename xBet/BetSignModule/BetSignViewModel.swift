@@ -8,4 +8,6 @@ class BetSignViewModel: ObservableObject {
     @Published var level = ""
     @Published var email = ""
     @Published var password = ""
+    @Published var isLogin = false
+    @Published var isTab = false
 }

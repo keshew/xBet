@@ -1,8 +1,13 @@
 import SwiftUI
 
 struct BetSettingsView: View {
-    @StateObject var betSettingsModel =  BetSettingsViewModel()
-
+    @StateObject var betSettingsModel = BetSettingsViewModel()
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var showDeleteConfirmation = false
+    
     var body: some View {
         ZStack {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -11,7 +16,7 @@ struct BetSettingsView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 30))
@@ -79,7 +84,7 @@ struct BetSettingsView: View {
                                 .foregroundColor(.white)
                     }
                     .onTapGesture {
-                        
+                        betSettingsModel.isPhoto = true
                     }
                     
                     Spacer()
@@ -155,7 +160,21 @@ struct BetSettingsView: View {
                 
                 VStack(spacing: 15) {
                     Button(action: {
-                        
+                        if areAllFieldsFilled() {
+                            betSettingsModel.updateProfile { result in
+                                switch result {
+                                case .success():
+                                    alertMessage = "Profile updated successfully"
+                                    showAlert = true
+                                case .failure(let error):
+                                    alertMessage = "Failed to update profile: \(error.localizedDescription)"
+                                    showAlert = true
+                                }
+                            }
+                        } else {
+                            alertMessage = "All fields must be filled"
+                            showAlert = true
+                        }
                     }) {
                         Rectangle()
                             .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
@@ -173,7 +192,7 @@ struct BetSettingsView: View {
                             .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
                         
                         Button(action: {
-                            
+                            showDeleteConfirmation = true
                         }) {
                             VStack(spacing: 3) {
                                 Text("Delete")
@@ -189,32 +208,50 @@ struct BetSettingsView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: $betSettingsModel.isPhoto) {
+            BetChoosePhotoView()
+        }
+        .fullScreenCover(isPresented: $betSettingsModel.isSign) {
+            BetOnboardingView()
+        }
+        .alert(alertMessage, isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
+        }
+        .confirmationDialog(
+            "Are you sure you want to delete your account? This action cannot be undone.",
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                deleteAccount()
+            }
+            Button("Cancel", role: .cancel) { }
+        }
+    }
+    
+    private func deleteAccount() {
+        betSettingsModel.deleteAccount { result in
+            switch result {
+            case .success():
+                alertMessage = "Your account has been deleted."
+                showAlert = true
+                
+            case .failure(let error):
+                alertMessage = "Failed to delete account: \(error.localizedDescription)"
+                showAlert = true
+            }
+        }
+    }
+    
+    private func areAllFieldsFilled() -> Bool {
+        return !betSettingsModel.name.trimmingCharacters(in: .whitespaces).isEmpty &&
+               !betSettingsModel.city.trimmingCharacters(in: .whitespaces).isEmpty &&
+               !betSettingsModel.weaponType.trimmingCharacters(in: .whitespaces).isEmpty &&
+               !betSettingsModel.level.trimmingCharacters(in: .whitespaces).isEmpty &&
+               !betSettingsModel.email.trimmingCharacters(in: .whitespaces).isEmpty
     }
 }
 
 #Preview {
     BetSettingsView()
-}
-
-struct CustomToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-            configuration.label
-            Spacer()
-            RoundedRectangle(cornerRadius: 16)
-                .fill(configuration.isOn ? Color(red: 33/255, green: 85/255, blue: 132/255) : Color(red: 33/255, green: 85/255, blue: 131/255))
-                .frame(width: 60, height: 30)
-                .overlay(
-                    Circle()
-                        .fill(configuration.isOn ? Color(red: 20/255, green: 160/255, blue: 255/255) : Color(red: 27/255, green: 123/255, blue: 193/255))
-                        .frame(width: 23, height: 23)
-                        .offset(x: configuration.isOn ? 13 : -13)
-                        .animation(.easeInOut, value: configuration.isOn)
-                )
-                .onTapGesture {
-                    configuration.isOn.toggle()
-                }
-        }
-        .padding()
-    }
 }

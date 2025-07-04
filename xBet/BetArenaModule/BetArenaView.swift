@@ -132,7 +132,7 @@ struct BetArenaView: View {
                                                         .padding(.horizontal, 20)
                                                         
                                                         Button(action: {
-                                                            
+                                                            showBetTraining = true
                                                         }) {
                                                             Rectangle()
                                                                 .fill(Color(red: 126/255, green: 172/255, blue: 47/255))

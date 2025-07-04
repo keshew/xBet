@@ -1,12 +1,16 @@
 import SwiftUI
 
+import SwiftUI
+
 struct BetAddNoteView: View {
-    @StateObject var betAddNoteModel =  BetAddNoteViewModel()
+    @StateObject var betAddNoteModel = BetAddNoteViewModel()
     
     @Binding var showAddTraining: Bool
     @Binding var isFinish: Bool
     
     @State private var text = ""
+    @State private var showAlert = false
+    @State private var alertMessage = ""
     
     var body: some View {
         ZStack {
@@ -40,10 +44,7 @@ struct BetAddNoteView: View {
                                 .padding(.top)
                                 
                                 Button(action: {
-                                    withAnimation {
-                                        showAddTraining = false
-                                        isFinish = true
-                                    }
+                                    addDiaryEntry()
                                 }) {
                                     Rectangle()
                                         .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
@@ -66,55 +67,46 @@ struct BetAddNoteView: View {
                 }
         }
         .cornerRadius(16)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+        }
     }
     
     private var formattedDate: String {
-           let formatter = DateFormatter()
-           formatter.dateFormat = "dd.MM.yyyy"
-           return formatter.string(from: Date())
-       }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter.string(from: Date())
+    }
+    
+    private func addDiaryEntry() {
+        //MARK: - here change
+        let userId = "user_686835ca2f1095.82273141"
+        
+        NetworkManager().addDiary(userId: userId, date: formattedDate, text: text) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        alertMessage = error
+                        showAlert = true
+                    } else {
+                        // Успешно добавлено
+                        withAnimation {
+                            showAddTraining = false
+                            isFinish = true
+                        }
+                    }
+                case .failure(let error):
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                }
+            }
+        }
+    }
 }
 
 #Preview {
     BetAddNoteView(showAddTraining: .constant(false), isFinish: .constant(false))
 }
 
-struct CustomTextView: View {
-    @Binding var text: String
-    @FocusState var isTextFocused: Bool
-    var placeholder: String
-    var height: CGFloat = 260
-    var body: some View {
-        ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color(red: 24/255, green: 58/255, blue: 93/255))
-                .cornerRadius(16)
-                .padding(.horizontal)
-            
-            TextEditor(text: $text)
-                .scrollContentBackground(.hidden)
-                .padding(.horizontal, 15)
-                .padding(.horizontal)
-                .padding(.top, 5)
-                .frame(height: height)
-                .font(.custom("SFProDisplay-Regular", size: 18))
-                .foregroundStyle(.white)
-                .focused($isTextFocused)
-            
-            if text.isEmpty && !isTextFocused {
-                VStack {
-                    Text(placeholder)
-                        .Pro(size: 18, color: Color(red: 153/255, green: 173/255, blue: 200/255))
-                        .padding(.leading, 15)
-                        .padding(.horizontal)
-                        .padding(.top, 10)
-                        .onTapGesture {
-                            isTextFocused = true
-                        }
-                    Spacer()
-                }
-            }
-        }
-        .frame(height: height)
-    }
-}
+
