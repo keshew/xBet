@@ -3,8 +3,11 @@ import SwiftUI
 struct BetDiaryView: View {
     @StateObject var betDiaryModel =  BetDiaryViewModel()
     @State private var isDeleted = false
+    @State private var showAddTraining = false
+    @State private var isFinish = false
+
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             ZStack {
                 Color(red: 28/255, green: 66/255, blue: 103/255)
                     .ignoresSafeArea()
@@ -43,6 +46,11 @@ struct BetDiaryView: View {
                     .frame(height: 200)
                     .cornerRadius(16)
                     .padding(.horizontal)
+                    .onTapGesture {
+                        withAnimation {
+                            showAddTraining = true
+                        }
+                    }
                 
                 ScrollView {
                     VStack(spacing: 15) {
@@ -86,7 +94,37 @@ struct BetDiaryView: View {
                 
                 
             }
-            .blur(radius: isDeleted ? 5 : 0)
+            .blur(radius: isDeleted ? 5 : showAddTraining ? 5 : isFinish ? 5 : 0)
+            .onTapGesture {
+                showAddTraining = false
+            }
+            
+            if showAddTraining {
+                BetAddNoteView(showAddTraining: $showAddTraining, isFinish: $isFinish)
+                    .frame(height: 570)
+                    .transition(.move(edge: .bottom))
+                    .zIndex(1)
+                    .offset(y: 20)
+            }
+            
+            if isFinish {
+                Image(.customModal)
+                    .resizable()
+                    .overlay {
+                        Text("Note successfully\nadded!")
+                            .Pro(size: 18)
+                            .multilineTextAlignment(.center)
+                            .offset(y: 50)
+                    }
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 230)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 340)
+                    .transition(.opacity)
+                    .onAppear {
+                        hideModalAfterDelay()
+                    }
+            }
             
             if isDeleted {
                 Image(.modalNoteDelete)
@@ -94,7 +132,7 @@ struct BetDiaryView: View {
                     .aspectRatio(contentMode: .fit)
                     .frame(height: 230)
                     .padding(.horizontal, 40)
-                    .padding(.bottom, 50)
+                    .padding(.bottom, 340)
                     .transition(.opacity)
                     .onAppear {
                         hideModalAfterDelay()
@@ -107,6 +145,7 @@ struct BetDiaryView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 isDeleted = false
+                isFinish = false
             }
         }
     }

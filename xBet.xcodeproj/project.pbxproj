@@ -6,30 +6,147 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		865ED1AF2E17DB7E00178A09 /* SF-Pro-Display-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 865ED1792E17DB7E00178A09 /* SF-Pro-Display-Bold.otf */; };
+		865ED1B02E17DB7E00178A09 /* SF-Pro-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 865ED17A2E17DB7E00178A09 /* SF-Pro-Display-Regular.otf */; };
+		865ED1B12E17DB7E00178A09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 865ED1A92E17DB7E00178A09 /* Preview Assets.xcassets */; };
+		865ED1B22E17DB7E00178A09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 865ED1AB2E17DB7E00178A09 /* Assets.xcassets */; };
+		865ED1B42E17DB7E00178A09 /* BetAddDiscussionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1502E17DB7E00178A09 /* BetAddDiscussionModel.swift */; };
+		865ED1B52E17DB7E00178A09 /* BetAddDiscussionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1512E17DB7E00178A09 /* BetAddDiscussionView.swift */; };
+		865ED1B62E17DB7E00178A09 /* BetAddDiscussionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1522E17DB7E00178A09 /* BetAddDiscussionViewModel.swift */; };
+		865ED1B72E17DB7E00178A09 /* BetAddNoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1542E17DB7E00178A09 /* BetAddNoteModel.swift */; };
+		865ED1B82E17DB7E00178A09 /* BetAddNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1552E17DB7E00178A09 /* BetAddNoteView.swift */; };
+		865ED1B92E17DB7E00178A09 /* BetAddNoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1562E17DB7E00178A09 /* BetAddNoteViewModel.swift */; };
+		865ED1BA2E17DB7E00178A09 /* BetAddSheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1582E17DB7E00178A09 /* BetAddSheduleModel.swift */; };
+		865ED1BB2E17DB7E00178A09 /* BetAddSheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1592E17DB7E00178A09 /* BetAddSheduleView.swift */; };
+		865ED1BC2E17DB7E00178A09 /* BetAddSheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED15A2E17DB7E00178A09 /* BetAddSheduleViewModel.swift */; };
+		865ED1BD2E17DB7E00178A09 /* BetArenaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED15C2E17DB7E00178A09 /* BetArenaModel.swift */; };
+		865ED1BE2E17DB7E00178A09 /* BetArenaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED15D2E17DB7E00178A09 /* BetArenaView.swift */; };
+		865ED1BF2E17DB7E00178A09 /* BetArenaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED15E2E17DB7E00178A09 /* BetArenaViewModel.swift */; };
+		865ED1C02E17DB7E00178A09 /* BetChatListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1602E17DB7E00178A09 /* BetChatListModel.swift */; };
+		865ED1C12E17DB7E00178A09 /* BetChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1612E17DB7E00178A09 /* BetChatListView.swift */; };
+		865ED1C22E17DB7E00178A09 /* BetChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1622E17DB7E00178A09 /* BetChatListViewModel.swift */; };
+		865ED1C32E17DB7E00178A09 /* BetChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1642E17DB7E00178A09 /* BetChatModel.swift */; };
+		865ED1C42E17DB7E00178A09 /* BetChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1652E17DB7E00178A09 /* BetChatView.swift */; };
+		865ED1C52E17DB7E00178A09 /* BetChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1662E17DB7E00178A09 /* BetChatViewModel.swift */; };
+		865ED1C62E17DB7E00178A09 /* BetChoosePhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1682E17DB7E00178A09 /* BetChoosePhotoModel.swift */; };
+		865ED1C72E17DB7E00178A09 /* BetChoosePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1692E17DB7E00178A09 /* BetChoosePhotoView.swift */; };
+		865ED1C82E17DB7E00178A09 /* BetChoosePhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED16A2E17DB7E00178A09 /* BetChoosePhotoViewModel.swift */; };
+		865ED1C92E17DB7E00178A09 /* BetDiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED16C2E17DB7E00178A09 /* BetDiaryModel.swift */; };
+		865ED1CA2E17DB7E00178A09 /* BetDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED16D2E17DB7E00178A09 /* BetDiaryView.swift */; };
+		865ED1CB2E17DB7E00178A09 /* BetDiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED16E2E17DB7E00178A09 /* BetDiaryViewModel.swift */; };
+		865ED1CC2E17DB7E00178A09 /* BetDiscussionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1702E17DB7E00178A09 /* BetDiscussionsModel.swift */; };
+		865ED1CD2E17DB7E00178A09 /* BetDiscussionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1712E17DB7E00178A09 /* BetDiscussionsView.swift */; };
+		865ED1CE2E17DB7E00178A09 /* BetDiscussionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1722E17DB7E00178A09 /* BetDiscussionsViewModel.swift */; };
+		865ED1CF2E17DB7E00178A09 /* BetTextExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1742E17DB7E00178A09 /* BetTextExtension.swift */; };
+		865ED1D02E17DB7E00178A09 /* BetCustomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1772E17DB7E00178A09 /* BetCustomButtons.swift */; };
+		865ED1D12E17DB7E00178A09 /* BetLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED17D2E17DB7E00178A09 /* BetLoginModel.swift */; };
+		865ED1D22E17DB7E00178A09 /* BetLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED17E2E17DB7E00178A09 /* BetLoginView.swift */; };
+		865ED1D32E17DB7E00178A09 /* BetLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED17F2E17DB7E00178A09 /* BetLoginViewModel.swift */; };
+		865ED1D42E17DB7E00178A09 /* BetMainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1812E17DB7E00178A09 /* BetMainModel.swift */; };
+		865ED1D52E17DB7E00178A09 /* BetMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1822E17DB7E00178A09 /* BetMainView.swift */; };
+		865ED1D62E17DB7E00178A09 /* BetMainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1832E17DB7E00178A09 /* BetMainViewModel.swift */; };
+		865ED1D72E17DB7E00178A09 /* BetNewCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1852E17DB7E00178A09 /* BetNewCommentModel.swift */; };
+		865ED1D82E17DB7E00178A09 /* BetNewCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1862E17DB7E00178A09 /* BetNewCommentView.swift */; };
+		865ED1D92E17DB7E00178A09 /* BetNewCommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1872E17DB7E00178A09 /* BetNewCommentViewModel.swift */; };
+		865ED1DA2E17DB7E00178A09 /* BetOnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1892E17DB7E00178A09 /* BetOnboardingModel.swift */; };
+		865ED1DB2E17DB7E00178A09 /* BetOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED18A2E17DB7E00178A09 /* BetOnboardingView.swift */; };
+		865ED1DC2E17DB7E00178A09 /* BetOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED18B2E17DB7E00178A09 /* BetOnboardingViewModel.swift */; };
+		865ED1DD2E17DB7E00178A09 /* BetPostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED18D2E17DB7E00178A09 /* BetPostModel.swift */; };
+		865ED1DE2E17DB7E00178A09 /* BetPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED18E2E17DB7E00178A09 /* BetPostView.swift */; };
+		865ED1DF2E17DB7E00178A09 /* BetPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED18F2E17DB7E00178A09 /* BetPostViewModel.swift */; };
+		865ED1E02E17DB7E00178A09 /* BetSettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1912E17DB7E00178A09 /* BetSettingsModel.swift */; };
+		865ED1E12E17DB7E00178A09 /* BetSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1922E17DB7E00178A09 /* BetSettingsView.swift */; };
+		865ED1E22E17DB7E00178A09 /* BetSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1932E17DB7E00178A09 /* BetSettingsViewModel.swift */; };
+		865ED1E32E17DB7E00178A09 /* BetSignModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1952E17DB7E00178A09 /* BetSignModel.swift */; };
+		865ED1E42E17DB7E00178A09 /* BetSignView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1962E17DB7E00178A09 /* BetSignView.swift */; };
+		865ED1E52E17DB7E00178A09 /* BetSignViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1972E17DB7E00178A09 /* BetSignViewModel.swift */; };
+		865ED1E62E17DB7E00178A09 /* BetSuggestSparringModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1992E17DB7E00178A09 /* BetSuggestSparringModel.swift */; };
+		865ED1E72E17DB7E00178A09 /* BetSuggestSparringView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED19A2E17DB7E00178A09 /* BetSuggestSparringView.swift */; };
+		865ED1E82E17DB7E00178A09 /* BetSuggestSparringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED19B2E17DB7E00178A09 /* BetSuggestSparringViewModel.swift */; };
+		865ED1E92E17DB7E00178A09 /* BetTabBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED19D2E17DB7E00178A09 /* BetTabBarModel.swift */; };
+		865ED1EA2E17DB7E00178A09 /* BetTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED19E2E17DB7E00178A09 /* BetTabBarView.swift */; };
+		865ED1EB2E17DB7E00178A09 /* BetTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED19F2E17DB7E00178A09 /* BetTabBarViewModel.swift */; };
+		865ED1EC2E17DB7E00178A09 /* BetTrainingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A12E17DB7E00178A09 /* BetTrainingModel.swift */; };
+		865ED1ED2E17DB7E00178A09 /* BetTrainingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A22E17DB7E00178A09 /* BetTrainingView.swift */; };
+		865ED1EE2E17DB7E00178A09 /* BetTrainingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A32E17DB7E00178A09 /* BetTrainingViewModel.swift */; };
+		865ED1EF2E17DB7E00178A09 /* BetTrainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A52E17DB7E00178A09 /* BetTrainModel.swift */; };
+		865ED1F02E17DB7E00178A09 /* BetTrainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A62E17DB7E00178A09 /* BetTrainView.swift */; };
+		865ED1F12E17DB7E00178A09 /* BetTrainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1A72E17DB7E00178A09 /* BetTrainViewModel.swift */; };
+		865ED1F22E17DB7E00178A09 /* xBetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865ED1AD2E17DB7E00178A09 /* xBetApp.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		865ED1502E17DB7E00178A09 /* BetAddDiscussionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddDiscussionModel.swift; sourceTree = "<group>"; };
+		865ED1512E17DB7E00178A09 /* BetAddDiscussionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddDiscussionView.swift; sourceTree = "<group>"; };
+		865ED1522E17DB7E00178A09 /* BetAddDiscussionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddDiscussionViewModel.swift; sourceTree = "<group>"; };
+		865ED1542E17DB7E00178A09 /* BetAddNoteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddNoteModel.swift; sourceTree = "<group>"; };
+		865ED1552E17DB7E00178A09 /* BetAddNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddNoteView.swift; sourceTree = "<group>"; };
+		865ED1562E17DB7E00178A09 /* BetAddNoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddNoteViewModel.swift; sourceTree = "<group>"; };
+		865ED1582E17DB7E00178A09 /* BetAddSheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddSheduleModel.swift; sourceTree = "<group>"; };
+		865ED1592E17DB7E00178A09 /* BetAddSheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddSheduleView.swift; sourceTree = "<group>"; };
+		865ED15A2E17DB7E00178A09 /* BetAddSheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetAddSheduleViewModel.swift; sourceTree = "<group>"; };
+		865ED15C2E17DB7E00178A09 /* BetArenaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetArenaModel.swift; sourceTree = "<group>"; };
+		865ED15D2E17DB7E00178A09 /* BetArenaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetArenaView.swift; sourceTree = "<group>"; };
+		865ED15E2E17DB7E00178A09 /* BetArenaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetArenaViewModel.swift; sourceTree = "<group>"; };
+		865ED1602E17DB7E00178A09 /* BetChatListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatListModel.swift; sourceTree = "<group>"; };
+		865ED1612E17DB7E00178A09 /* BetChatListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatListView.swift; sourceTree = "<group>"; };
+		865ED1622E17DB7E00178A09 /* BetChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatListViewModel.swift; sourceTree = "<group>"; };
+		865ED1642E17DB7E00178A09 /* BetChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatModel.swift; sourceTree = "<group>"; };
+		865ED1652E17DB7E00178A09 /* BetChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatView.swift; sourceTree = "<group>"; };
+		865ED1662E17DB7E00178A09 /* BetChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChatViewModel.swift; sourceTree = "<group>"; };
+		865ED1682E17DB7E00178A09 /* BetChoosePhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChoosePhotoModel.swift; sourceTree = "<group>"; };
+		865ED1692E17DB7E00178A09 /* BetChoosePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChoosePhotoView.swift; sourceTree = "<group>"; };
+		865ED16A2E17DB7E00178A09 /* BetChoosePhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetChoosePhotoViewModel.swift; sourceTree = "<group>"; };
+		865ED16C2E17DB7E00178A09 /* BetDiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiaryModel.swift; sourceTree = "<group>"; };
+		865ED16D2E17DB7E00178A09 /* BetDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiaryView.swift; sourceTree = "<group>"; };
+		865ED16E2E17DB7E00178A09 /* BetDiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiaryViewModel.swift; sourceTree = "<group>"; };
+		865ED1702E17DB7E00178A09 /* BetDiscussionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiscussionsModel.swift; sourceTree = "<group>"; };
+		865ED1712E17DB7E00178A09 /* BetDiscussionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiscussionsView.swift; sourceTree = "<group>"; };
+		865ED1722E17DB7E00178A09 /* BetDiscussionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDiscussionsViewModel.swift; sourceTree = "<group>"; };
+		865ED1742E17DB7E00178A09 /* BetTextExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTextExtension.swift; sourceTree = "<group>"; };
+		865ED1772E17DB7E00178A09 /* BetCustomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetCustomButtons.swift; sourceTree = "<group>"; };
+		865ED1792E17DB7E00178A09 /* SF-Pro-Display-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Bold.otf"; sourceTree = "<group>"; };
+		865ED17A2E17DB7E00178A09 /* SF-Pro-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro-Display-Regular.otf"; sourceTree = "<group>"; };
+		865ED17D2E17DB7E00178A09 /* BetLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetLoginModel.swift; sourceTree = "<group>"; };
+		865ED17E2E17DB7E00178A09 /* BetLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetLoginView.swift; sourceTree = "<group>"; };
+		865ED17F2E17DB7E00178A09 /* BetLoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetLoginViewModel.swift; sourceTree = "<group>"; };
+		865ED1812E17DB7E00178A09 /* BetMainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetMainModel.swift; sourceTree = "<group>"; };
+		865ED1822E17DB7E00178A09 /* BetMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetMainView.swift; sourceTree = "<group>"; };
+		865ED1832E17DB7E00178A09 /* BetMainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetMainViewModel.swift; sourceTree = "<group>"; };
+		865ED1852E17DB7E00178A09 /* BetNewCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNewCommentModel.swift; sourceTree = "<group>"; };
+		865ED1862E17DB7E00178A09 /* BetNewCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNewCommentView.swift; sourceTree = "<group>"; };
+		865ED1872E17DB7E00178A09 /* BetNewCommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNewCommentViewModel.swift; sourceTree = "<group>"; };
+		865ED1892E17DB7E00178A09 /* BetOnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetOnboardingModel.swift; sourceTree = "<group>"; };
+		865ED18A2E17DB7E00178A09 /* BetOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetOnboardingView.swift; sourceTree = "<group>"; };
+		865ED18B2E17DB7E00178A09 /* BetOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetOnboardingViewModel.swift; sourceTree = "<group>"; };
+		865ED18D2E17DB7E00178A09 /* BetPostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetPostModel.swift; sourceTree = "<group>"; };
+		865ED18E2E17DB7E00178A09 /* BetPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetPostView.swift; sourceTree = "<group>"; };
+		865ED18F2E17DB7E00178A09 /* BetPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetPostViewModel.swift; sourceTree = "<group>"; };
+		865ED1912E17DB7E00178A09 /* BetSettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSettingsModel.swift; sourceTree = "<group>"; };
+		865ED1922E17DB7E00178A09 /* BetSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSettingsView.swift; sourceTree = "<group>"; };
+		865ED1932E17DB7E00178A09 /* BetSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSettingsViewModel.swift; sourceTree = "<group>"; };
+		865ED1952E17DB7E00178A09 /* BetSignModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSignModel.swift; sourceTree = "<group>"; };
+		865ED1962E17DB7E00178A09 /* BetSignView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSignView.swift; sourceTree = "<group>"; };
+		865ED1972E17DB7E00178A09 /* BetSignViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSignViewModel.swift; sourceTree = "<group>"; };
+		865ED1992E17DB7E00178A09 /* BetSuggestSparringModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSuggestSparringModel.swift; sourceTree = "<group>"; };
+		865ED19A2E17DB7E00178A09 /* BetSuggestSparringView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSuggestSparringView.swift; sourceTree = "<group>"; };
+		865ED19B2E17DB7E00178A09 /* BetSuggestSparringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSuggestSparringViewModel.swift; sourceTree = "<group>"; };
+		865ED19D2E17DB7E00178A09 /* BetTabBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTabBarModel.swift; sourceTree = "<group>"; };
+		865ED19E2E17DB7E00178A09 /* BetTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTabBarView.swift; sourceTree = "<group>"; };
+		865ED19F2E17DB7E00178A09 /* BetTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTabBarViewModel.swift; sourceTree = "<group>"; };
+		865ED1A12E17DB7E00178A09 /* BetTrainingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainingModel.swift; sourceTree = "<group>"; };
+		865ED1A22E17DB7E00178A09 /* BetTrainingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainingView.swift; sourceTree = "<group>"; };
+		865ED1A32E17DB7E00178A09 /* BetTrainingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainingViewModel.swift; sourceTree = "<group>"; };
+		865ED1A52E17DB7E00178A09 /* BetTrainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainModel.swift; sourceTree = "<group>"; };
+		865ED1A62E17DB7E00178A09 /* BetTrainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainView.swift; sourceTree = "<group>"; };
+		865ED1A72E17DB7E00178A09 /* BetTrainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetTrainViewModel.swift; sourceTree = "<group>"; };
+		865ED1A92E17DB7E00178A09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		865ED1AB2E17DB7E00178A09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		865ED1AC2E17DB7E00178A09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		865ED1AD2E17DB7E00178A09 /* xBetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xBetApp.swift; sourceTree = "<group>"; };
 		867AB3952E16F152002A539C /* xBet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = xBet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		867AB3EE2E16F268002A539C /* Exceptions for "xBet" folder in "xBet" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 867AB3942E16F152002A539C /* xBet */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		867AB3972E16F152002A539C /* xBet */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				867AB3EE2E16F268002A539C /* Exceptions for "xBet" folder in "xBet" target */,
-			);
-			path = xBet;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		867AB3922E16F152002A539C /* Frameworks */ = {
@@ -42,10 +159,293 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		865ED1532E17DB7E00178A09 /* BetAddDiscussionModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1502E17DB7E00178A09 /* BetAddDiscussionModel.swift */,
+				865ED1512E17DB7E00178A09 /* BetAddDiscussionView.swift */,
+				865ED1522E17DB7E00178A09 /* BetAddDiscussionViewModel.swift */,
+			);
+			path = BetAddDiscussionModule;
+			sourceTree = "<group>";
+		};
+		865ED1572E17DB7E00178A09 /* BetAddNoteModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1542E17DB7E00178A09 /* BetAddNoteModel.swift */,
+				865ED1552E17DB7E00178A09 /* BetAddNoteView.swift */,
+				865ED1562E17DB7E00178A09 /* BetAddNoteViewModel.swift */,
+			);
+			path = BetAddNoteModule;
+			sourceTree = "<group>";
+		};
+		865ED15B2E17DB7E00178A09 /* BetAddSheduleModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1582E17DB7E00178A09 /* BetAddSheduleModel.swift */,
+				865ED1592E17DB7E00178A09 /* BetAddSheduleView.swift */,
+				865ED15A2E17DB7E00178A09 /* BetAddSheduleViewModel.swift */,
+			);
+			path = BetAddSheduleModule;
+			sourceTree = "<group>";
+		};
+		865ED15F2E17DB7E00178A09 /* BetArenaModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED15C2E17DB7E00178A09 /* BetArenaModel.swift */,
+				865ED15D2E17DB7E00178A09 /* BetArenaView.swift */,
+				865ED15E2E17DB7E00178A09 /* BetArenaViewModel.swift */,
+			);
+			path = BetArenaModule;
+			sourceTree = "<group>";
+		};
+		865ED1632E17DB7E00178A09 /* BetChatListModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1602E17DB7E00178A09 /* BetChatListModel.swift */,
+				865ED1612E17DB7E00178A09 /* BetChatListView.swift */,
+				865ED1622E17DB7E00178A09 /* BetChatListViewModel.swift */,
+			);
+			path = BetChatListModule;
+			sourceTree = "<group>";
+		};
+		865ED1672E17DB7E00178A09 /* BetChatModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1642E17DB7E00178A09 /* BetChatModel.swift */,
+				865ED1652E17DB7E00178A09 /* BetChatView.swift */,
+				865ED1662E17DB7E00178A09 /* BetChatViewModel.swift */,
+			);
+			path = BetChatModule;
+			sourceTree = "<group>";
+		};
+		865ED16B2E17DB7E00178A09 /* BetChoosePhotoModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1682E17DB7E00178A09 /* BetChoosePhotoModel.swift */,
+				865ED1692E17DB7E00178A09 /* BetChoosePhotoView.swift */,
+				865ED16A2E17DB7E00178A09 /* BetChoosePhotoViewModel.swift */,
+			);
+			path = BetChoosePhotoModule;
+			sourceTree = "<group>";
+		};
+		865ED16F2E17DB7E00178A09 /* BetDiaryModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED16C2E17DB7E00178A09 /* BetDiaryModel.swift */,
+				865ED16D2E17DB7E00178A09 /* BetDiaryView.swift */,
+				865ED16E2E17DB7E00178A09 /* BetDiaryViewModel.swift */,
+			);
+			path = BetDiaryModule;
+			sourceTree = "<group>";
+		};
+		865ED1732E17DB7E00178A09 /* BetDiscussionsModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1702E17DB7E00178A09 /* BetDiscussionsModel.swift */,
+				865ED1712E17DB7E00178A09 /* BetDiscussionsView.swift */,
+				865ED1722E17DB7E00178A09 /* BetDiscussionsViewModel.swift */,
+			);
+			path = BetDiscussionsModule;
+			sourceTree = "<group>";
+		};
+		865ED1752E17DB7E00178A09 /* BetTextExtension */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1742E17DB7E00178A09 /* BetTextExtension.swift */,
+			);
+			path = BetTextExtension;
+			sourceTree = "<group>";
+		};
+		865ED1762E17DB7E00178A09 /* BetExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1752E17DB7E00178A09 /* BetTextExtension */,
+			);
+			path = BetExtensions;
+			sourceTree = "<group>";
+		};
+		865ED1782E17DB7E00178A09 /* BetCustomButtons */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1772E17DB7E00178A09 /* BetCustomButtons.swift */,
+			);
+			path = BetCustomButtons;
+			sourceTree = "<group>";
+		};
+		865ED17B2E17DB7E00178A09 /* BetFonts */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1792E17DB7E00178A09 /* SF-Pro-Display-Bold.otf */,
+				865ED17A2E17DB7E00178A09 /* SF-Pro-Display-Regular.otf */,
+			);
+			path = BetFonts;
+			sourceTree = "<group>";
+		};
+		865ED17C2E17DB7E00178A09 /* BetHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1782E17DB7E00178A09 /* BetCustomButtons */,
+				865ED17B2E17DB7E00178A09 /* BetFonts */,
+			);
+			path = BetHelpers;
+			sourceTree = "<group>";
+		};
+		865ED1802E17DB7E00178A09 /* BetLoginModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED17D2E17DB7E00178A09 /* BetLoginModel.swift */,
+				865ED17E2E17DB7E00178A09 /* BetLoginView.swift */,
+				865ED17F2E17DB7E00178A09 /* BetLoginViewModel.swift */,
+			);
+			path = BetLoginModule;
+			sourceTree = "<group>";
+		};
+		865ED1842E17DB7E00178A09 /* BetMainModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1812E17DB7E00178A09 /* BetMainModel.swift */,
+				865ED1822E17DB7E00178A09 /* BetMainView.swift */,
+				865ED1832E17DB7E00178A09 /* BetMainViewModel.swift */,
+			);
+			path = BetMainModule;
+			sourceTree = "<group>";
+		};
+		865ED1882E17DB7E00178A09 /* BetNewCommentModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1852E17DB7E00178A09 /* BetNewCommentModel.swift */,
+				865ED1862E17DB7E00178A09 /* BetNewCommentView.swift */,
+				865ED1872E17DB7E00178A09 /* BetNewCommentViewModel.swift */,
+			);
+			path = BetNewCommentModule;
+			sourceTree = "<group>";
+		};
+		865ED18C2E17DB7E00178A09 /* BetOnboardingModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1892E17DB7E00178A09 /* BetOnboardingModel.swift */,
+				865ED18A2E17DB7E00178A09 /* BetOnboardingView.swift */,
+				865ED18B2E17DB7E00178A09 /* BetOnboardingViewModel.swift */,
+			);
+			path = BetOnboardingModule;
+			sourceTree = "<group>";
+		};
+		865ED1902E17DB7E00178A09 /* BetPostModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED18D2E17DB7E00178A09 /* BetPostModel.swift */,
+				865ED18E2E17DB7E00178A09 /* BetPostView.swift */,
+				865ED18F2E17DB7E00178A09 /* BetPostViewModel.swift */,
+			);
+			path = BetPostModule;
+			sourceTree = "<group>";
+		};
+		865ED1942E17DB7E00178A09 /* BetSettingsModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1912E17DB7E00178A09 /* BetSettingsModel.swift */,
+				865ED1922E17DB7E00178A09 /* BetSettingsView.swift */,
+				865ED1932E17DB7E00178A09 /* BetSettingsViewModel.swift */,
+			);
+			path = BetSettingsModule;
+			sourceTree = "<group>";
+		};
+		865ED1982E17DB7E00178A09 /* BetSignModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1952E17DB7E00178A09 /* BetSignModel.swift */,
+				865ED1962E17DB7E00178A09 /* BetSignView.swift */,
+				865ED1972E17DB7E00178A09 /* BetSignViewModel.swift */,
+			);
+			path = BetSignModule;
+			sourceTree = "<group>";
+		};
+		865ED19C2E17DB7E00178A09 /* BetSuggestSparringModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1992E17DB7E00178A09 /* BetSuggestSparringModel.swift */,
+				865ED19A2E17DB7E00178A09 /* BetSuggestSparringView.swift */,
+				865ED19B2E17DB7E00178A09 /* BetSuggestSparringViewModel.swift */,
+			);
+			path = BetSuggestSparringModule;
+			sourceTree = "<group>";
+		};
+		865ED1A02E17DB7E00178A09 /* BetTabBarModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED19D2E17DB7E00178A09 /* BetTabBarModel.swift */,
+				865ED19E2E17DB7E00178A09 /* BetTabBarView.swift */,
+				865ED19F2E17DB7E00178A09 /* BetTabBarViewModel.swift */,
+			);
+			path = BetTabBarModule;
+			sourceTree = "<group>";
+		};
+		865ED1A42E17DB7E00178A09 /* BetTrainingModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1A12E17DB7E00178A09 /* BetTrainingModel.swift */,
+				865ED1A22E17DB7E00178A09 /* BetTrainingView.swift */,
+				865ED1A32E17DB7E00178A09 /* BetTrainingViewModel.swift */,
+			);
+			path = BetTrainingModule;
+			sourceTree = "<group>";
+		};
+		865ED1A82E17DB7E00178A09 /* BetTrainModule */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1A52E17DB7E00178A09 /* BetTrainModel.swift */,
+				865ED1A62E17DB7E00178A09 /* BetTrainView.swift */,
+				865ED1A72E17DB7E00178A09 /* BetTrainViewModel.swift */,
+			);
+			path = BetTrainModule;
+			sourceTree = "<group>";
+		};
+		865ED1AA2E17DB7E00178A09 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1A92E17DB7E00178A09 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		865ED1AE2E17DB7E00178A09 /* xBet */ = {
+			isa = PBXGroup;
+			children = (
+				865ED1532E17DB7E00178A09 /* BetAddDiscussionModule */,
+				865ED1572E17DB7E00178A09 /* BetAddNoteModule */,
+				865ED15B2E17DB7E00178A09 /* BetAddSheduleModule */,
+				865ED15F2E17DB7E00178A09 /* BetArenaModule */,
+				865ED1632E17DB7E00178A09 /* BetChatListModule */,
+				865ED1672E17DB7E00178A09 /* BetChatModule */,
+				865ED16B2E17DB7E00178A09 /* BetChoosePhotoModule */,
+				865ED16F2E17DB7E00178A09 /* BetDiaryModule */,
+				865ED1732E17DB7E00178A09 /* BetDiscussionsModule */,
+				865ED1762E17DB7E00178A09 /* BetExtensions */,
+				865ED17C2E17DB7E00178A09 /* BetHelpers */,
+				865ED1802E17DB7E00178A09 /* BetLoginModule */,
+				865ED1842E17DB7E00178A09 /* BetMainModule */,
+				865ED1882E17DB7E00178A09 /* BetNewCommentModule */,
+				865ED18C2E17DB7E00178A09 /* BetOnboardingModule */,
+				865ED1902E17DB7E00178A09 /* BetPostModule */,
+				865ED1942E17DB7E00178A09 /* BetSettingsModule */,
+				865ED1982E17DB7E00178A09 /* BetSignModule */,
+				865ED19C2E17DB7E00178A09 /* BetSuggestSparringModule */,
+				865ED1A02E17DB7E00178A09 /* BetTabBarModule */,
+				865ED1A42E17DB7E00178A09 /* BetTrainingModule */,
+				865ED1A82E17DB7E00178A09 /* BetTrainModule */,
+				865ED1AA2E17DB7E00178A09 /* Preview Content */,
+				865ED1AB2E17DB7E00178A09 /* Assets.xcassets */,
+				865ED1AC2E17DB7E00178A09 /* Info.plist */,
+				865ED1AD2E17DB7E00178A09 /* xBetApp.swift */,
+			);
+			path = xBet;
+			sourceTree = "<group>";
+		};
 		867AB38C2E16F152002A539C = {
 			isa = PBXGroup;
 			children = (
-				867AB3972E16F152002A539C /* xBet */,
+				865ED1AE2E17DB7E00178A09 /* xBet */,
 				867AB3962E16F152002A539C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,9 +472,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				867AB3972E16F152002A539C /* xBet */,
 			);
 			name = xBet;
 			packageProductDependencies = (
@@ -122,6 +519,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865ED1AF2E17DB7E00178A09 /* SF-Pro-Display-Bold.otf in Resources */,
+				865ED1B02E17DB7E00178A09 /* SF-Pro-Display-Regular.otf in Resources */,
+				865ED1B12E17DB7E00178A09 /* Preview Assets.xcassets in Resources */,
+				865ED1B22E17DB7E00178A09 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +533,69 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				865ED1B42E17DB7E00178A09 /* BetAddDiscussionModel.swift in Sources */,
+				865ED1B52E17DB7E00178A09 /* BetAddDiscussionView.swift in Sources */,
+				865ED1B62E17DB7E00178A09 /* BetAddDiscussionViewModel.swift in Sources */,
+				865ED1B72E17DB7E00178A09 /* BetAddNoteModel.swift in Sources */,
+				865ED1B82E17DB7E00178A09 /* BetAddNoteView.swift in Sources */,
+				865ED1B92E17DB7E00178A09 /* BetAddNoteViewModel.swift in Sources */,
+				865ED1BA2E17DB7E00178A09 /* BetAddSheduleModel.swift in Sources */,
+				865ED1BB2E17DB7E00178A09 /* BetAddSheduleView.swift in Sources */,
+				865ED1BC2E17DB7E00178A09 /* BetAddSheduleViewModel.swift in Sources */,
+				865ED1BD2E17DB7E00178A09 /* BetArenaModel.swift in Sources */,
+				865ED1BE2E17DB7E00178A09 /* BetArenaView.swift in Sources */,
+				865ED1BF2E17DB7E00178A09 /* BetArenaViewModel.swift in Sources */,
+				865ED1C02E17DB7E00178A09 /* BetChatListModel.swift in Sources */,
+				865ED1C12E17DB7E00178A09 /* BetChatListView.swift in Sources */,
+				865ED1C22E17DB7E00178A09 /* BetChatListViewModel.swift in Sources */,
+				865ED1C32E17DB7E00178A09 /* BetChatModel.swift in Sources */,
+				865ED1C42E17DB7E00178A09 /* BetChatView.swift in Sources */,
+				865ED1C52E17DB7E00178A09 /* BetChatViewModel.swift in Sources */,
+				865ED1C62E17DB7E00178A09 /* BetChoosePhotoModel.swift in Sources */,
+				865ED1C72E17DB7E00178A09 /* BetChoosePhotoView.swift in Sources */,
+				865ED1C82E17DB7E00178A09 /* BetChoosePhotoViewModel.swift in Sources */,
+				865ED1C92E17DB7E00178A09 /* BetDiaryModel.swift in Sources */,
+				865ED1CA2E17DB7E00178A09 /* BetDiaryView.swift in Sources */,
+				865ED1CB2E17DB7E00178A09 /* BetDiaryViewModel.swift in Sources */,
+				865ED1CC2E17DB7E00178A09 /* BetDiscussionsModel.swift in Sources */,
+				865ED1CD2E17DB7E00178A09 /* BetDiscussionsView.swift in Sources */,
+				865ED1CE2E17DB7E00178A09 /* BetDiscussionsViewModel.swift in Sources */,
+				865ED1CF2E17DB7E00178A09 /* BetTextExtension.swift in Sources */,
+				865ED1D02E17DB7E00178A09 /* BetCustomButtons.swift in Sources */,
+				865ED1D12E17DB7E00178A09 /* BetLoginModel.swift in Sources */,
+				865ED1D22E17DB7E00178A09 /* BetLoginView.swift in Sources */,
+				865ED1D32E17DB7E00178A09 /* BetLoginViewModel.swift in Sources */,
+				865ED1D42E17DB7E00178A09 /* BetMainModel.swift in Sources */,
+				865ED1D52E17DB7E00178A09 /* BetMainView.swift in Sources */,
+				865ED1D62E17DB7E00178A09 /* BetMainViewModel.swift in Sources */,
+				865ED1D72E17DB7E00178A09 /* BetNewCommentModel.swift in Sources */,
+				865ED1D82E17DB7E00178A09 /* BetNewCommentView.swift in Sources */,
+				865ED1D92E17DB7E00178A09 /* BetNewCommentViewModel.swift in Sources */,
+				865ED1DA2E17DB7E00178A09 /* BetOnboardingModel.swift in Sources */,
+				865ED1DB2E17DB7E00178A09 /* BetOnboardingView.swift in Sources */,
+				865ED1DC2E17DB7E00178A09 /* BetOnboardingViewModel.swift in Sources */,
+				865ED1DD2E17DB7E00178A09 /* BetPostModel.swift in Sources */,
+				865ED1DE2E17DB7E00178A09 /* BetPostView.swift in Sources */,
+				865ED1DF2E17DB7E00178A09 /* BetPostViewModel.swift in Sources */,
+				865ED1E02E17DB7E00178A09 /* BetSettingsModel.swift in Sources */,
+				865ED1E12E17DB7E00178A09 /* BetSettingsView.swift in Sources */,
+				865ED1E22E17DB7E00178A09 /* BetSettingsViewModel.swift in Sources */,
+				865ED1E32E17DB7E00178A09 /* BetSignModel.swift in Sources */,
+				865ED1E42E17DB7E00178A09 /* BetSignView.swift in Sources */,
+				865ED1E52E17DB7E00178A09 /* BetSignViewModel.swift in Sources */,
+				865ED1E62E17DB7E00178A09 /* BetSuggestSparringModel.swift in Sources */,
+				865ED1E72E17DB7E00178A09 /* BetSuggestSparringView.swift in Sources */,
+				865ED1E82E17DB7E00178A09 /* BetSuggestSparringViewModel.swift in Sources */,
+				865ED1E92E17DB7E00178A09 /* BetTabBarModel.swift in Sources */,
+				865ED1EA2E17DB7E00178A09 /* BetTabBarView.swift in Sources */,
+				865ED1EB2E17DB7E00178A09 /* BetTabBarViewModel.swift in Sources */,
+				865ED1EC2E17DB7E00178A09 /* BetTrainingModel.swift in Sources */,
+				865ED1ED2E17DB7E00178A09 /* BetTrainingView.swift in Sources */,
+				865ED1EE2E17DB7E00178A09 /* BetTrainingViewModel.swift in Sources */,
+				865ED1EF2E17DB7E00178A09 /* BetTrainModel.swift in Sources */,
+				865ED1F02E17DB7E00178A09 /* BetTrainView.swift in Sources */,
+				865ED1F12E17DB7E00178A09 /* BetTrainViewModel.swift in Sources */,
+				865ED1F22E17DB7E00178A09 /* xBetApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

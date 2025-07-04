@@ -241,4 +241,3 @@ struct BetTrainingView: View {
 #Preview {
     BetTrainingView(isTapped: .constant(false), isFinish: .constant(false), showBetTraining: .constant(false))
 }
-

@@ -128,8 +128,7 @@ struct BetMainView: View {
                     
                     Image(.block3)
                         .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 260)
+                        .frame(height: 270)
                         .padding(.horizontal)
                     
                     Color.clear.frame(height: 30)

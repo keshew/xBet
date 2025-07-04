@@ -237,6 +237,9 @@ struct BetTrainView: View {
                 .padding(.top)
             }
             .blur(radius: showAddScheduleView ? 5 : isFinish ? 5 : 0)
+            .onTapGesture {
+                showAddScheduleView = false
+            }
             
             if showAddScheduleView {
                 BetAddSheduleView(isTapped: $isTapped, isFinish: $isFinish, showAddScheduleView: $showAddScheduleView)
