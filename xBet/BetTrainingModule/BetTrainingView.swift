@@ -13,6 +13,8 @@ struct BetTrainingView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     
+    var arena: ArenaModel
+    
     var isButtonEnabled: Bool {
         selectedRecordDate != nil && selectedRecordingTime != nil && selectedTrainingType != nil
     }
@@ -35,7 +37,7 @@ struct BetTrainingView: View {
                             HStack(alignment: .top) {
                                 VStack(alignment: .leading) {
                                     VStack(alignment: .leading, spacing: 5) {
-                                        Text("Arena name")
+                                        Text(arena.arenaName)
                                             .ProBold(size: 24)
                                         
                                         Text("There's a coach to choose from")
@@ -73,7 +75,7 @@ struct BetTrainingView: View {
                             .padding(.horizontal)
                             
                             HStack {
-                                Text("Burga Street 21")
+                                Text(arena.adress)
                                     .Pro(size: 14, color: Color(red: 139/255, green: 153/255, blue: 170/255))
                                 
                                 Spacer()
@@ -256,17 +258,15 @@ struct BetTrainingView: View {
         let selectedTime = recordingTimes[recordingTimeIndex]
         let selectedType = trainingTypes[trainingTypeIndex]
         
-        
-        //MARK: - ПОМЕНЯТЬ НА НАСТОЙЩИЙ!
-        let userId = "user_686835ca2f1095.82273141"
+        let userId = UserDefaultsManager().getID() ?? ""
         
         
         NetworkManager().addTraining(
             userId: userId,
-            arenaName: "ALEX ARENA",
+            arenaName: arena.arenaName,
             trainerName: "TEM4ik!",
-            address: "Burga Street 21",
-            arenaHours: "9:00 - 21:00",
+            address: arena.adress,
+            arenaHours: arena.timeWork,
             recordTime: selectedTime,
             recordDate: selectedDate,
             trainingType: selectedType
@@ -295,5 +295,5 @@ struct BetTrainingView: View {
 
 
 #Preview {
-    BetTrainingView(isTapped: .constant(false), isFinish: .constant(false), showBetTraining: .constant(false))
+    BetTrainingView(isTapped: .constant(false), isFinish: .constant(false), showBetTraining: .constant(false), arena: ArenaModel(arenaName: "The Duel Dome", image: "arena3", adress: "789 Sabre Lane", timeWork: "9:00-21:00"))
 }

@@ -13,7 +13,7 @@ struct BetAddDiscussionView: View {
     @State private var showingPhotoPicker = false
     @State private var pickedImage: UIImage? = nil
     
-    let userId = "user_686835ca2f1095.82273141"
+    let userId = UserDefaultsManager().getID() ?? ""
     
     var body: some View {
         ZStack {

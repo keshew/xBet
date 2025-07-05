@@ -79,8 +79,7 @@ struct BetAddNoteView: View {
     }
     
     private func addDiaryEntry() {
-        //MARK: - here change
-        let userId = "user_686835ca2f1095.82273141"
+        let userId = UserDefaultsManager().getID() ?? ""
         
         NetworkManager().addDiary(userId: userId, date: formattedDate, text: text) { result in
             DispatchQueue.main.async {

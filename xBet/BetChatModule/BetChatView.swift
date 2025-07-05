@@ -178,7 +178,7 @@ struct BetChatView: View {
     }
     
     func loadMessages() {
-        NetworkManager().getMessages(userId: "user_686835ca2f1095.82273141", withUserId: user.id) { result in
+        NetworkManager().getMessages(userId: UserDefaultsManager().getID() ?? "", withUserId: user.id) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let json):
@@ -186,7 +186,7 @@ struct BetChatView: View {
                         self.messages = messagesArray.compactMap { dict in
                             guard let text = dict["text"] as? String,
                                   let fromId = dict["from_user_id"] as? String else { return nil }
-                            return ChatMessage(text: text, isMe: fromId == "user_686835ca2f1095.82273141")
+                            return ChatMessage(text: text, isMe: fromId == UserDefaultsManager().getID() ?? "")
                         }
                     }
                 case .failure(let error):
@@ -203,7 +203,7 @@ struct BetChatView: View {
         
         messages.append(ChatMessage(text: messageText, isMe: true))
         
-        NetworkManager().sendMessage(fromUserId: "user_686835ca2f1095.82273141", toUserId: user.id, text: messageText, dateSent: ISO8601DateFormatter().string(from: Date())) { result in
+        NetworkManager().sendMessage(fromUserId: UserDefaultsManager().getID() ?? "", toUserId: user.id, text: messageText, dateSent: ISO8601DateFormatter().string(from: Date())) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let json):

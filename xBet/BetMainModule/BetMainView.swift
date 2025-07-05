@@ -11,7 +11,7 @@ struct BetMainView: View {
             ScrollView(showsIndicators: false) {
                 VStack {
                     HStack {
-                        Text("Hello, Alexandr!")
+                        Text("Hello, \(UserDefaultsManager().getName() ?? "user")!")
                             .ProBold(size: 32)
                         
                         Spacer()
@@ -134,9 +134,30 @@ struct BetMainView: View {
                     Button(action: {
                         betMainModel.isDiscussion = true
                     }) {
-                        Image(.block3)
-                            .resizable()
+                        Rectangle()
+                            .fill(Color(red: 1/255, green: 10/255, blue: 21/255))
+                            .overlay {
+                                HStack(alignment: .top) {
+                                    VStack(alignment: .leading, spacing: 10) {
+                                    Text("Discussions")
+                                            .ProBold(size: 24)
+                                        
+                                        Text("Communicate on any\ntopic you want")
+                                            .Pro(size: 16, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                    }
+                                    .padding(30)
+                                    
+                                    Spacer()
+                                    
+                                    Image(.duisc)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 170, height: 270)
+                                }
+                                
+                            }
                             .frame(height: 270)
+                            .cornerRadius(16)
                             .padding(.horizontal)
                     }
                     

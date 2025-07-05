@@ -7,7 +7,7 @@ struct BetLoginView: View {
     @State private var alertMessage = ""
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Color(red: 28/255, green: 66/255, blue: 103/255)
                 .ignoresSafeArea()
             
@@ -84,7 +84,8 @@ struct BetLoginView: View {
                         }
                         
                         Button(action: {
-                            // Skip action if needed
+                            UserDefaultsManager().enterAsGuest()
+                            betLoginModel.isTab = true
                         }) {
                             Rectangle()
                                 .fill(.clear)
@@ -118,13 +119,16 @@ struct BetLoginView: View {
                             }
                         }
                     }
-                    .padding(.top, 350)
+                    .padding(.top, UIScreen.main.bounds.width > 900 ? 800 : UIScreen.main.bounds.width > 600 ? 650 : 350)
                 }
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
         }
         .fullScreenCover(isPresented: $betLoginModel.isSign) {
             BetSignView()
+        }
+        .fullScreenCover(isPresented: $betLoginModel.isTab) {
+            BetTabBarView()
         }
         .alert(isPresented: $showAlert) {
             Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
@@ -145,7 +149,13 @@ struct BetLoginView: View {
                     if let error = json["error"] as? String {
                         alertMessage = error
                         showAlert = true
-                    } else if let _ = json["user"] as? [String: Any] {
+                    } else if let user = json["user"] as? [String: Any] {
+                        if let userId = user["user_id"] as? String {
+                            UserDefaultsManager().saveID(userId)
+                            UserDefaultsManager().saveCurrentEmail(betLoginModel.email)
+                            UserDefaultsManager().savePassword(betLoginModel.password)
+                            UserDefaultsManager().saveLoginStatus(true)
+                        }
                         betLoginModel.isTab = true
                     } else {
                         alertMessage = "Unexpected response from server."
@@ -158,6 +168,7 @@ struct BetLoginView: View {
             }
         }
     }
+
 }
 
 

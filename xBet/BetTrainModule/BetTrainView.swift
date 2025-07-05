@@ -6,8 +6,6 @@ struct BetTrainView: View {
     @State private var isTapped = false
     @State private var isFinish = false
     
-    let userId = "user_686835ca2f1095.82273141"
-    
     func formatDate(_ dateString: String) -> String {
         return dateString
     }
@@ -26,7 +24,9 @@ struct BetTrainView: View {
                         Spacer()
                         Button(action: {
                             withAnimation {
-                                showAddScheduleView = true
+                                if !UserDefaultsManager().isGuest() {
+                                    showAddScheduleView = true
+                                }
                             }
                         }) {
                             Image(systemName: "plus")
@@ -44,20 +44,24 @@ struct BetTrainView: View {
                                     .stroke(Color(red: 21/255, green: 147/255, blue: 232/255))
                                     .overlay {
                                         HStack(spacing: 20) {
-                                            Text("There are no upcoming events or chats")
-                                                .ProBold(size: 20)
+                                            Text("Add schedule")
+                                                .ProBold(size: 24)
                                             
-                                            Image("message")
-                                                .resizable()
-                                                .frame(width: 40, height: 40)
+                                            Image(systemName: "plus")
+                                                .font(.system(size: 44, weight: .bold))
+                                                .foregroundStyle(.white)
                                         }
                                     }
                             }
-                            .frame(height: 100)
+                            .frame(height: 200)
                             .cornerRadius(16)
                             .padding(.horizontal)
                             .onTapGesture {
-                                betTrainModel.isMessageList = true
+                                withAnimation {
+                                    if !UserDefaultsManager().isGuest() {
+                                        showAddScheduleView = true
+                                    }
+                                }
                             }
                     } else {
                         Rectangle()
@@ -138,7 +142,9 @@ struct BetTrainView: View {
                         .cornerRadius(16)
                         .padding(.horizontal)
                         .onTapGesture {
-                            betTrainModel.isMessageList = true
+                            if !UserDefaultsManager().isGuest() {
+                                betTrainModel.isMessageList = true
+                            }
                         }
                     
                     HStack {
@@ -189,8 +195,10 @@ struct BetTrainView: View {
                                                         .cornerRadius(16)
                                                         .padding(.trailing)
                                                     Button(action: {
-                                                        betTrainModel.selectedUser = user
-                                                        betTrainModel.isMessage = true
+                                                        if !UserDefaultsManager().isGuest() {
+                                                            betTrainModel.selectedUser = user
+                                                            betTrainModel.isMessage = true
+                                                        }
                                                     }) {
                                                         Image("message")
                                                             .resizable()
@@ -249,8 +257,10 @@ struct BetTrainView: View {
             BetChatListView()
         }
         .onAppear {
-            betTrainModel.loadPractices(userId: userId)
-            betTrainModel.loadUsers()
+            if !UserDefaultsManager().isGuest() {
+                betTrainModel.loadPractices(userId: UserDefaultsManager().getID() ?? "")
+                betTrainModel.loadUsers()
+            }
         }
     }
 }

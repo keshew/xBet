@@ -6,7 +6,6 @@ struct BetSuggestSparringView: View {
     @Binding var isFinish: Bool
     @Binding var showAddScheduleView: Bool
     
-    // Выбираем только один день (опциональный индекс)
     @State private var selectedRecordingTime: Int? = nil
     @State private var showingPicker = false
     @State private var selectedTime: Date? = nil
@@ -14,8 +13,7 @@ struct BetSuggestSparringView: View {
     
     let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
-    // Кнопка активна, если выбран день, время и место не пустое
-    var isButtonEnabled: Bool {
+        var isButtonEnabled: Bool {
         selectedRecordingTime != nil && selectedTime != nil && !text.trimmingCharacters(in: .whitespaces).isEmpty
     }
     

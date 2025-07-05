@@ -65,8 +65,10 @@ struct BetDiscussionsView: View {
                             ForEach(betDiscussionsModel.allDiscussions) { discussion in
                                 DiscussionRow(discussion: discussion)
                                     .onTapGesture {
-                                           betDiscussionsModel.selectedDiscussion = discussion
-                                           betDiscussionsModel.isPost = true
+                                        if !UserDefaultsManager().isGuest() {
+                                            betDiscussionsModel.selectedDiscussion = discussion
+                                            betDiscussionsModel.isPost = true
+                                        }
                                        }
                             }
                         }
@@ -95,6 +97,8 @@ struct BetDiscussionsView: View {
             }
             .padding(.bottom)
             .blur(radius: showDiscussion ? 5 : isFinish ? 5 : 0)
+            .disabled(UserDefaultsManager().isGuest())
+            .opacity(UserDefaultsManager().isGuest() ? 0 : 1)
             
             if showDiscussion {
                 BetAddDiscussionView(showDiscussion: $showDiscussion, isFinish: $isFinish)

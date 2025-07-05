@@ -55,156 +55,203 @@ struct BetSettingsView: View {
                         .fill(Color(red: 141/255, green: 160/255, blue: 179/255))
                         .frame(height: 1)
                     
-                    HStack {
-                        Text("E-mail notification")
-                            .Pro(size: 20)
-                        
-                        Toggle("", isOn: $betSettingsModel.isEmail)
-                            .toggleStyle(CustomToggleStyle())
-                    }
+                    if !UserDefaultsManager().isGuest() {
+                        HStack {
+                            Text("E-mail notification")
+                                .Pro(size: 20)
+                            
+                            Toggle("", isOn: $betSettingsModel.isEmail)
+                                .toggleStyle(CustomToggleStyle())
+                        }
+              
                     
                     Rectangle()
                         .fill(Color(red: 141/255, green: 160/255, blue: 179/255))
                         .frame(height: 1)
+                    }
                 }
                 .padding(.horizontal)
                 
-                HStack(spacing: 10) {
-                    Image(.avaOpponent)
-                        .resizable()
-                        .frame(width: 100, height: 100)
-                    
-                    VStack(alignment: .leading) {
-                        Text("You can choose a ")
-                            .font(.custom("SFProDisplay-Regular", size: 18))
-                            .foregroundColor(.white)
+                if !UserDefaultsManager().isGuest() {
+                    HStack(spacing: 10) {
+                        Image(.avaOpponent)
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                        
+                        VStack(alignment: .leading) {
+                            Text("You can choose a ")
+                                .font(.custom("SFProDisplay-Regular", size: 18))
+                                .foregroundColor(.white)
                             + Text("ready-made photo or upload your own")
                                 .underline()
                                 .font(.custom("SFProDisplay-Regular", size: 18))
                                 .foregroundColor(.white)
+                        }
+                        .onTapGesture {
+                            betSettingsModel.isPhoto = true
+                        }
+                        
+                        Spacer()
                     }
-                    .onTapGesture {
-                        betSettingsModel.isPhoto = true
-                    }
-                    
-                    Spacer()
+                    .padding(.horizontal)
+                    .padding(.top)
                 }
-                .padding(.horizontal)
-                .padding(.top)
                 
-                ScrollView(showsIndicators: true) {
-                    VStack(spacing: 20) {
-                        VStack {
-                            HStack {
-                                Text("Your name")
-                                    .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                                    .padding(.leading)
-                                
-                                Spacer()
-                            }
-                            
-                            CustomTextFiled(text: $betSettingsModel.name, placeholder: "Alex")
-                        }
-                        
-                        VStack {
-                            HStack {
-                                Text("Your city")
-                                    .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                                    .padding(.leading)
-                                
-                                Spacer()
-                            }
-                            
-                            CustomTextFiled(text: $betSettingsModel.city, placeholder: "Minsk")
-                        }
-                        
-                        VStack {
-                            HStack {
-                                Text("Prerequisite weapon type")
-                                    .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                                    .padding(.leading)
-                                
-                                Spacer()
-                            }
-                            
-                            CustomTextFiled(text: $betSettingsModel.weaponType, placeholder: "Sable")
-                        }
-                        
-                        VStack {
-                            HStack {
-                                Text("Preparation level")
-                                    .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                                    .padding(.leading)
-                                
-                                Spacer()
-                            }
-                            
-                            CustomTextFiled(text: $betSettingsModel.level, placeholder: "Low")
-                        }
-                        
-                        VStack {
-                            HStack {
-                                Text("Your e-mail")
-                                    .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                                    .padding(.leading)
-                                
-                                Spacer()
-                            }
-                            
-                            CustomTextFiled(text: $betSettingsModel.email, placeholder: "artom@uandex.cim")
-                        }
-                    }
-                    .padding(.vertical)
-                }
-                .frame(maxHeight: .infinity)
-                
-                VStack(spacing: 15) {
-                    Button(action: {
-                        if areAllFieldsFilled() {
-                            betSettingsModel.updateProfile { result in
-                                switch result {
-                                case .success():
-                                    alertMessage = "Profile updated successfully"
-                                    showAlert = true
-                                case .failure(let error):
-                                    alertMessage = "Failed to update profile: \(error.localizedDescription)"
-                                    showAlert = true
+                if !UserDefaultsManager().isGuest() {
+                    ScrollView(showsIndicators: true) {
+                        VStack(spacing: 20) {
+                            VStack {
+                                HStack {
+                                    Text("Your name")
+                                        .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                                        .padding(.leading)
+                                    
+                                    Spacer()
                                 }
+                                
+                                CustomTextFiled(text: $betSettingsModel.name, placeholder: "\(UserDefaultsManager().getName() ?? "")")
                             }
-                        } else {
-                            alertMessage = "All fields must be filled"
-                            showAlert = true
+                            
+                            VStack {
+                                HStack {
+                                    Text("Your city")
+                                        .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                                        .padding(.leading)
+                                    
+                                    Spacer()
+                                }
+                                
+                                CustomTextFiled(text: $betSettingsModel.city, placeholder: "City")
+                            }
+                            
+                            VStack {
+                                HStack {
+                                    Text("Prerequisite weapon type")
+                                        .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                                        .padding(.leading)
+                                    
+                                    Spacer()
+                                }
+                                
+                                CustomTextFiled(text: $betSettingsModel.weaponType, placeholder: "Sable")
+                            }
+                            
+                            VStack {
+                                HStack {
+                                    Text("Preparation level")
+                                        .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                                        .padding(.leading)
+                                    
+                                    Spacer()
+                                }
+                                
+                                CustomTextFiled(text: $betSettingsModel.level, placeholder: "Low")
+                            }
+                            
+                            VStack {
+                                HStack {
+                                    Text("Your e-mail")
+                                        .Pro(size: 12, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                                        .padding(.leading)
+                                    
+                                    Spacer()
+                                }
+                                
+                                CustomTextFiled(text: $betSettingsModel.email, placeholder: "\(UserDefaultsManager().getEmail() ?? "")")
+                            }
                         }
-                    }) {
-                        Rectangle()
-                            .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
-                            .overlay {
-                                Text("Save")
-                                    .Pro(size: 21)
-                            }
-                            .frame(height: 57)
-                            .cornerRadius(16)
-                            .padding(.horizontal)
+                        .padding(.vertical)
                     }
-                    
-                    HStack(alignment: .top, spacing: 10) {
-                        Text("Want to delete an account?")
-                            .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
+                    .frame(maxHeight: .infinity)
+                }
+                
+                if UserDefaultsManager().isGuest() {
+                    VStack(spacing: 15) {
+                        Button(action: {
+                            betSettingsModel.isSign = true
+                            UserDefaultsManager().quitQuest()
+                        }) {
+                            Rectangle()
+                                .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                .overlay {
+                                    Text("Create account")
+                                        .Pro(size: 21)
+                                }
+                                .frame(height: 57)
+                                .cornerRadius(16)
+                                .padding(.horizontal)
+                        }
                         
                         Button(action: {
-                            showDeleteConfirmation = true
+                            betSettingsModel.isLogin = true
+                            UserDefaultsManager().quitQuest()
                         }) {
-                            VStack(spacing: 3) {
-                                Text("Delete")
-                                    .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
-                                
-                                Rectangle()
-                                    .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
-                                    .frame(width: 40, height: 1)
-                                    .cornerRadius(16)
+                            Rectangle()
+                                .fill(.clear)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                    Text("Log in")
+                                        .Pro(size: 21, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                }
+                                .frame(height: 57)
+                                .cornerRadius(16)
+                                .padding(.horizontal)
+                        }
+                    }
+                    .padding(.top)
+                } else {
+                    VStack(spacing: 15) {
+                        Button(action: {
+                            if areAllFieldsFilled() {
+                                betSettingsModel.updateProfile { result in
+                                    switch result {
+                                    case .success():
+                                        alertMessage = "Profile updated successfully"
+                                        showAlert = true
+                                    case .failure(let error):
+                                        alertMessage = "Failed to update profile: \(error.localizedDescription)"
+                                        showAlert = true
+                                    }
+                                }
+                            } else {
+                                alertMessage = "All fields must be filled"
+                                showAlert = true
+                            }
+                        }) {
+                            Rectangle()
+                                .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                .overlay {
+                                    Text("Save")
+                                        .Pro(size: 21)
+                                }
+                                .frame(height: 57)
+                                .cornerRadius(16)
+                                .padding(.horizontal)
+                        }
+                        
+                        HStack(alignment: .top, spacing: 10) {
+                            Text("Want to delete an account?")
+                                .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
+                            
+                            Button(action: {
+                                showDeleteConfirmation = true
+                            }) {
+                                VStack(spacing: 3) {
+                                    Text("Delete")
+                                        .Pro(size: 16, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                    
+                                    Rectangle()
+                                        .fill(Color(red: 20/255, green: 160/255, blue: 255/255))
+                                        .frame(width: 40, height: 1)
+                                        .cornerRadius(16)
+                                }
                             }
                         }
                     }
+                }
+                if UserDefaultsManager().isGuest() {
+                    Spacer()
                 }
             }
         }
@@ -212,7 +259,10 @@ struct BetSettingsView: View {
             BetChoosePhotoView()
         }
         .fullScreenCover(isPresented: $betSettingsModel.isSign) {
-            BetOnboardingView()
+            BetSignView()
+        }
+        .fullScreenCover(isPresented: $betSettingsModel.isLogin) {
+            BetLoginView()
         }
         .alert(alertMessage, isPresented: $showAlert) {
             Button("OK", role: .cancel) { }
@@ -235,7 +285,8 @@ struct BetSettingsView: View {
             case .success():
                 alertMessage = "Your account has been deleted."
                 showAlert = true
-                
+                betSettingsModel.isSign = true
+                UserDefaultsManager().saveLoginStatus(false)
             case .failure(let error):
                 alertMessage = "Failed to delete account: \(error.localizedDescription)"
                 showAlert = true

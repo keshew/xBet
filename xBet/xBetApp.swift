@@ -4,7 +4,18 @@ import SwiftUI
 struct xBetApp: App {
     var body: some Scene {
         WindowGroup {
-            BetOnboardingView()
+            if UserDefaultsManager().checkLogin() {
+                BetTabBarView()
+            } else {
+                if UserDefaultsManager().isFirstLaunch() {
+                    BetOnboardingView()
+                } else {
+                    BetLoginView()
+                        .onAppear() {
+                            UserDefaultsManager().quitQuest()
+                        }
+                }
+            }
         }
     }
 }

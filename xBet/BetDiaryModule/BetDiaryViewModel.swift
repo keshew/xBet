@@ -5,7 +5,7 @@ class BetDiaryViewModel: ObservableObject {
     let contact = BetDiaryModel()
 
     @Published var diaryEntries: [DiaryEntry] = []
-    @Published var userId: String = "user_686835ca2f1095.82273141"
+    @Published var userId: String = UserDefaultsManager().getID() ?? ""
     
     func fetchDiary() {
         NetworkManager().getDiary(userId: userId) { [weak self] result in

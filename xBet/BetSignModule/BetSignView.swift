@@ -134,7 +134,8 @@ struct BetSignView: View {
                     }
                     
                     Button(action: {
-                        // Skip action if needed
+                        betSignModel.isTab = true
+                        UserDefaultsManager().enterAsGuest()
                     }) {
                         Rectangle()
                             .fill(.clear)
@@ -194,6 +195,8 @@ struct BetSignView: View {
             return
         }
         
+        let arrayOfImage = ["avaOpponent", "ava2", "ava3", "ava4", "ava5", "ava6", "ava7", "ava8", "ava9"]
+        
         NetworkManager().registration(
             name: betSignModel.name,
             city: betSignModel.city,
@@ -201,7 +204,7 @@ struct BetSignView: View {
             level: betSignModel.level,
             email: betSignModel.email,
             password: betSignModel.password,
-            picture: ""
+            picture: arrayOfImage.randomElement()!
         ) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -209,8 +212,16 @@ struct BetSignView: View {
                     if let error = json["error"] as? String {
                         alertMessage = error
                         showAlert = true
-                    } else {
+                    } else if let userId = json["user_id"] as? String {
+                        UserDefaultsManager().saveID(userId)
+                        UserDefaultsManager().saveCurrentEmail(betSignModel.email)
+                        UserDefaultsManager().savePassword(betSignModel.password)
+                        UserDefaultsManager().saveName(betSignModel.name)
+                        UserDefaultsManager().saveLoginStatus(true)
                         betSignModel.isTab = true
+                    } else {
+                        alertMessage = "Unexpected server response"
+                        showAlert = true
                     }
                 case .failure(let error):
                     alertMessage = error.localizedDescription
@@ -219,6 +230,7 @@ struct BetSignView: View {
             }
         }
     }
+
 }
 
 

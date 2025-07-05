@@ -9,7 +9,7 @@ class BetMainViewModel: ObservableObject {
        
        private var cancellables = Set<AnyCancellable>()
        
-       let userId: String = "user_686835ca2f1095.82273141"
+       let userId: String = UserDefaultsManager().getID() ?? ""
        
        init() {
            fetchTrainings()

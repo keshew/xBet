@@ -107,6 +107,15 @@ class NetworkManager {
         request(params: params, completion: completion)
     }
     
+    func changeAvatar(userId: String, picture: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+         let params: [String: Any] = [
+             "method": "change_avatar",
+             "user_id": userId,
+             "picture": picture
+         ]
+         request(params: params, completion: completion)
+     }
+    
     // MARK: - Delete Diary
     func deleteDiary(userId: String, diaryId: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let params: [String: Any] = [

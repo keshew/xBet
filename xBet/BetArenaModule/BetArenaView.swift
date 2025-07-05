@@ -1,11 +1,21 @@
 import SwiftUI
 import MapKit
 
+struct ArenaModel {
+    var arenaName: String
+    var image: String
+    var adress: String
+    var timeWork: String
+}
+
 struct BetArenaView: View {
     @StateObject var betArenaModel =  BetArenaViewModel()
     @State private var showBetTraining = false
     @State private var isTapped = false
     @State private var isFinish = false
+    var array = [ArenaModel(arenaName: "The Blade Arena", image: "arena1", adress: "123 Sword Street", timeWork: "9:00-21:00"),
+                 ArenaModel(arenaName: "The Fencing Hall", image: "arena2", adress: "45 Duel Avenue", timeWork: "9:00-21:00"),
+                 ArenaModel(arenaName: "The Duel Dome", image: "arena3", adress: "789 Sabre Lane", timeWork: "9:00-21:00")]
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -72,7 +82,7 @@ struct BetArenaView: View {
                     VStack {
                         ScrollView(showsIndicators: false) {
                             VStack {
-                                ForEach(0..<3, id: \.self) { index in
+                                ForEach(0..<array.count, id: \.self) { index in
                                     Rectangle()
                                         .fill(Color(red: 21/255, green: 52/255, blue: 83/255))
                                         .overlay {
@@ -83,7 +93,7 @@ struct BetArenaView: View {
                                                         HStack(alignment: .top) {
                                                             VStack(alignment: .leading) {
                                                                 VStack(alignment: .leading, spacing: 10) {
-                                                                    Text("Arena name")
+                                                                    Text(array[index].arenaName)
                                                                         .ProBold(size: 24)
                                                                     
                                                                     Text("There's a coach to choose from")
@@ -113,7 +123,7 @@ struct BetArenaView: View {
                                                             }
                                                             
                                                             
-                                                            Image(.arenaImg)
+                                                            Image(array[index].image)
                                                                 .resizable()
                                                                 .aspectRatio(contentMode: .fit)
                                                                 .frame(width: 120, height: 210)
@@ -121,18 +131,21 @@ struct BetArenaView: View {
                                                         .padding(.horizontal)
                                                         
                                                         HStack {
-                                                            Text("Burga Street 21")
+                                                            Text(array[index].adress)
                                                                 .Pro(size: 14, color: Color(red: 139/255, green: 153/255, blue: 170/255))
                                                             
                                                             Spacer()
                                                             
-                                                            Text("9:00 - 21:00")
+                                                            Text(array[index].timeWork)
                                                                 .Pro(size: 14, color: Color(red: 139/255, green: 153/255, blue: 170/255))
                                                         }
                                                         .padding(.horizontal, 20)
                                                         
                                                         Button(action: {
-                                                            showBetTraining = true
+                                                            if !UserDefaultsManager().isGuest() {
+                                                                showBetTraining = true
+                                                                betArenaModel.selectedArena = array[index]
+                                                            }
                                                         }) {
                                                             Rectangle()
                                                                 .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
@@ -174,7 +187,7 @@ struct BetArenaView: View {
             }
             
             if showBetTraining {
-                BetTrainingView(isTapped: $isTapped, isFinish: $isFinish, showBetTraining: $showBetTraining)
+                BetTrainingView(isTapped: $isTapped, isFinish: $isFinish, showBetTraining: $showBetTraining, arena: betArenaModel.selectedArena ?? array.randomElement()!)
                     .frame(height: isTapped ? 730 : 330)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
@@ -227,15 +240,15 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $region, annotationItems: annotationItems) { item in
             MapAnnotation(coordinate: item.coordinate) {
-                Image("pin")
-                    .resizable()
-                    .frame(width: 60, height: 60)
-                    .onTapGesture {
-                        withAnimation {
-                            showBetTraining = true
-                            print("tapped")
-                        }
+                Button(action: {
+                    if !UserDefaultsManager().isGuest() {
+                        showBetTraining = true
                     }
+                }) {
+                    Image("pin")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                }
             }
         }
         .edgesIgnoringSafeArea(.all)

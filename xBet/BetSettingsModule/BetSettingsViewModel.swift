@@ -11,7 +11,7 @@ class BetSettingsViewModel: ObservableObject {
     @Published var isPhoto = false
     @Published var picture: String? = nil
     @Published var isSign = false
-    
+    @Published var isLogin = false
     @Published var isNotif: Bool {
         didSet {
             UserDefaults.standard.set(isNotif, forKey: "isNotif")
@@ -30,7 +30,7 @@ class BetSettingsViewModel: ObservableObject {
     }
     
     func updateProfile(completion: @escaping (Result<Void, Error>) -> Void) {
-        let userId: String = "user_686835ca2f1095.82273141"
+        let userId: String = UserDefaultsManager().getID() ?? ""
         
         NetworkManager().editProfile(
             userId: userId,
@@ -46,6 +46,8 @@ class BetSettingsViewModel: ObservableObject {
                 case .success(let json):
                     if let success = json["success"] as? String {
                         print("Profile updated: \(success)")
+                        UserDefaultsManager().saveCurrentEmail(self.email)
+                        UserDefaultsManager().saveName(self.name)
                         completion(.success(()))
                     } else if let error = json["error"] as? String {
                         completion(.failure(NSError(domain: error, code: 1)))
@@ -60,7 +62,7 @@ class BetSettingsViewModel: ObservableObject {
     }
     
     func deleteAccount(completion: @escaping (Result<Void, Error>) -> Void) {
-        let userId: String = "user_686835ca2f1095.82273141"
+        let userId: String = UserDefaultsManager().getID() ?? ""
         
         NetworkManager().deleteAccount(userId: userId) { result in
             DispatchQueue.main.async {

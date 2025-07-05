@@ -7,7 +7,6 @@ struct BetChoosePhotoView: View {
                 GridItem(.flexible(), spacing: -20),
                 GridItem(.flexible(), spacing: -20)]
     
-    @State private var selectedIndex: Int? = nil
     @State private var showingPhotoPicker = false
     @State private var pickedImage: UIImage? = nil
     
@@ -81,13 +80,21 @@ struct BetChoosePhotoView: View {
                                     .clipShape(Circle())
                                     .overlay(
                                         Circle()
-                                            .stroke(selectedIndex == index ? Color(red: 20/255, green: 160/255, blue: 255/255) : Color.clear, lineWidth: 2)
+                                            .stroke(betChoosePhotoModel.selectedIndex == index ? Color(red: 20/255, green: 160/255, blue: 255/255) : Color.clear, lineWidth: 2)
                                     )
                                     .onTapGesture {
-                                        selectedIndex = index
+                                        betChoosePhotoModel.selectedIndex = index
+                                        betChoosePhotoModel.changeAvatar { result in
+                                            switch result {
+                                            case .success():
+                                                print("Avatar updated successfully")
+                                            case .failure(let error):
+                                                print("Failed to update avatar: \(error.localizedDescription)")
+                                            }
+                                        }
                                     }
                                 
-                                if selectedIndex == index {
+                                if betChoosePhotoModel.selectedIndex == index {
                                     Image(.choosed)
                                         .resizable()
                                         .frame(width: 25, height: 25)
@@ -102,6 +109,7 @@ struct BetChoosePhotoView: View {
         }
     }
 }
+
 
 
 #Preview {

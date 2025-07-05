@@ -91,11 +91,9 @@ struct BetNewCommentView: View {
                         }
                     } else if let error = json["error"] as? String {
                         print("Error adding comment: \(error)")
-                        // Можно добавить отображение ошибки пользователю
                     }
                 case .failure(let error):
                     print("Failed to add comment: \(error.localizedDescription)")
-                    // Можно добавить отображение ошибки пользователю
                 }
             }
         }

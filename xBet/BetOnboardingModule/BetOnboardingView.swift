@@ -4,7 +4,7 @@ struct BetOnboardingView: View {
     @StateObject var betOnboardingModel =  BetOnboardingViewModel()
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .bottom) {
             Image(.onb)
                 .resizable()
                 .ignoresSafeArea()
@@ -45,7 +45,8 @@ struct BetOnboardingView: View {
                         }
                         
                         Button(action: {
-                            
+                            betOnboardingModel.isTab = true
+                            UserDefaultsManager().enterAsGuest()
                         }) {
                             VStack(spacing: 5) {
                                 Text("Continue with guest access")
@@ -60,7 +61,7 @@ struct BetOnboardingView: View {
                         }
                     }
                 }
-                .padding(.top, 450)
+                .padding(.top, UIScreen.main.bounds.width > 900 ? 1000 : UIScreen.main.bounds.width > 600 ? 850 : 450)
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
         }
@@ -69,6 +70,9 @@ struct BetOnboardingView: View {
         }
         .fullScreenCover(isPresented: $betOnboardingModel.isSign) {
             BetSignView()
+        }
+        .fullScreenCover(isPresented: $betOnboardingModel.isTab) {
+            BetTabBarView()
         }
     }
 }

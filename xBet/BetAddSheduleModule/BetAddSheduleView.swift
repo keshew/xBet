@@ -255,8 +255,7 @@ struct BetAddSheduleView: View {
             ]
         }
         
-        //MARK: - change
-        let userId = "user_686835ca2f1095.82273141"
+        let userId = UserDefaultsManager().getID() ?? ""
         
         NetworkManager().addPractice(userId: userId, practices: practices) { result in
             DispatchQueue.main.async {

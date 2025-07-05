@@ -48,7 +48,9 @@ struct BetDiaryView: View {
                     .padding(.horizontal)
                     .onTapGesture {
                         withAnimation {
-                            showAddTraining = true
+                            if !UserDefaultsManager().isGuest() {
+                                showAddTraining = true
+                            }
                         }
                     }
                 
@@ -142,7 +144,9 @@ struct BetDiaryView: View {
             }
         }
         .onAppear {
-            betDiaryModel.fetchDiary()
+            if !UserDefaultsManager().isGuest() {
+                betDiaryModel.fetchDiary()
+            }
         }
     }
     
