@@ -8,10 +8,31 @@ struct BetChoosePhotoView: View {
                 GridItem(.flexible(), spacing: -20)]
     
     @State private var showingPhotoPicker = false
-    @State private var pickedImage: UIImage? = nil
+    @State private var pickedImage: UIImage?
+
+       init() {
+           if let savedImage = loadImageFromUserDefaults(key: "selectedPhoto") {
+               _pickedImage = State(initialValue: savedImage)
+           } else {
+               _pickedImage = State(initialValue: nil)
+           }
+       }
     
     @Environment(\.presentationMode) var presentationMode
-    
+    @State var isBack = false
+    func saveImageToUserDefaults(image: UIImage, key: String) {
+        if let data = image.jpegData(compressionQuality: 1.0) {
+            UserDefaults.standard.set(data, forKey: key)
+        }
+    }
+
+    func loadImageFromUserDefaults(key: String) -> UIImage? {
+        if let data = UserDefaults.standard.data(forKey: key) {
+            return UIImage(data: data)
+        }
+        return nil
+    }
+
     var body: some View {
         ZStack {
             Color(red: 28/255, green: 66/255, blue: 103/255)
@@ -21,7 +42,7 @@ struct BetChoosePhotoView: View {
                 VStack {
                     HStack {
                         Button(action: {
-                            presentationMode.wrappedValue.dismiss()
+                            isBack = true
                         }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 30))
@@ -57,6 +78,11 @@ struct BetChoosePhotoView: View {
                         .sheet(isPresented: $showingPhotoPicker) {
                             PhotoPicker(selectedImage: $pickedImage)
                         }
+                        .onChange(of: pickedImage) { newImage in
+                            if let image = newImage {
+                                saveImageToUserDefaults(image: image, key: "selectedPhoto")
+                            }
+                        }
                         
                         Text("Upload your photo")
                             .Pro(size: 18)
@@ -87,7 +113,8 @@ struct BetChoosePhotoView: View {
                                         betChoosePhotoModel.changeAvatar { result in
                                             switch result {
                                             case .success():
-                                                print("Avatar updated successfully")
+                                                UserDefaultsManager().saveImage(betChoosePhotoModel.contact.arrayOfAva[index])
+                                                UserDefaults.standard.removeObject(forKey: "selectedPhoto")
                                             case .failure(let error):
                                                 print("Failed to update avatar: \(error.localizedDescription)")
                                             }
@@ -106,6 +133,9 @@ struct BetChoosePhotoView: View {
                 }
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380 ? true : false)
+        }
+        .fullScreenCover(isPresented: $isBack) {
+            BetSettingsView()
         }
     }
 }

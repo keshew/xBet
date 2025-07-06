@@ -119,7 +119,7 @@ struct BetLoginView: View {
                             }
                         }
                     }
-                    .padding(.top, UIScreen.main.bounds.width > 900 ? 800 : UIScreen.main.bounds.width > 600 ? 650 : 350)
+                    .padding(.top, UIScreen.main.bounds.width > 900 ? 800 : UIScreen.main.bounds.width > 600 ? 650 :  UIScreen.main.bounds.width > 430 ? 350 : 280)
                 }
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
@@ -154,6 +154,24 @@ struct BetLoginView: View {
                             UserDefaultsManager().saveID(userId)
                             UserDefaultsManager().saveCurrentEmail(betLoginModel.email)
                             UserDefaultsManager().savePassword(betLoginModel.password)
+                            
+                            if let name = user["name"] as? String {
+                                UserDefaultsManager().saveName(name)
+                            }
+                            if let city = user["city"] as? String {
+                                UserDefaultsManager().saveCity(city)
+                            }
+                            if let level = user["level"] as? String {
+                                UserDefaultsManager().saveLevel(level)
+                            }
+                            if let weaponType = user["weapon"] as? String {
+                                UserDefaultsManager().saveWeapon(weaponType)
+                            }
+                            
+                            if let picture = user["picture"] as? String {
+                                UserDefaultsManager().saveImage(picture)
+                            }
+                            
                             UserDefaultsManager().saveLoginStatus(true)
                         }
                         betLoginModel.isTab = true
@@ -168,7 +186,6 @@ struct BetLoginView: View {
             }
         }
     }
-
 }
 
 

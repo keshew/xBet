@@ -7,6 +7,7 @@ struct BetSettingsView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var showDeleteConfirmation = false
+    @State var isBack = false
     
     var body: some View {
         ZStack {
@@ -16,7 +17,7 @@ struct BetSettingsView: View {
             VStack {
                 HStack {
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        isBack = true
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 30))
@@ -63,20 +64,35 @@ struct BetSettingsView: View {
                             Toggle("", isOn: $betSettingsModel.isEmail)
                                 .toggleStyle(CustomToggleStyle())
                         }
-              
-                    
-                    Rectangle()
-                        .fill(Color(red: 141/255, green: 160/255, blue: 179/255))
-                        .frame(height: 1)
+                        
+                        
+                        Rectangle()
+                            .fill(Color(red: 141/255, green: 160/255, blue: 179/255))
+                            .frame(height: 1)
                     }
                 }
                 .padding(.horizontal)
                 
                 if !UserDefaultsManager().isGuest() {
                     HStack(spacing: 10) {
-                        Image(.avaOpponent)
-                            .resizable()
-                            .frame(width: 100, height: 100)
+                        if let pickedImage = betSettingsModel.pickedImage {
+                            Image(uiImage: pickedImage)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                        } else if let avatarName = betSettingsModel.avatarImageName {
+                            Image(avatarName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                        } else {
+                            Image(.avaOpponent)
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                        }
                         
                         VStack(alignment: .leading) {
                             Text("You can choose a ")
@@ -121,7 +137,7 @@ struct BetSettingsView: View {
                                     Spacer()
                                 }
                                 
-                                CustomTextFiled(text: $betSettingsModel.city, placeholder: "City")
+                                CustomTextFiled(text: $betSettingsModel.city, placeholder: "\(UserDefaultsManager().getCity() ?? "")")
                             }
                             
                             VStack {
@@ -133,7 +149,7 @@ struct BetSettingsView: View {
                                     Spacer()
                                 }
                                 
-                                CustomTextFiled(text: $betSettingsModel.weaponType, placeholder: "Sable")
+                                CustomTextFiled(text: $betSettingsModel.weaponType, placeholder: "\(UserDefaultsManager().getWeapon() ?? "")")
                             }
                             
                             VStack {
@@ -145,7 +161,7 @@ struct BetSettingsView: View {
                                     Spacer()
                                 }
                                 
-                                CustomTextFiled(text: $betSettingsModel.level, placeholder: "Low")
+                                CustomTextFiled(text: $betSettingsModel.level, placeholder: "\(UserDefaultsManager().getLevel() ?? "")")
                             }
                             
                             VStack {
@@ -230,6 +246,24 @@ struct BetSettingsView: View {
                                 .padding(.horizontal)
                         }
                         
+                        Button(action: {
+                            betSettingsModel.isSign = true
+                            UserDefaultsManager().saveLoginStatus(false)
+                            UserDefaultsManager().clearAllUserData()
+                        }) {
+                            Rectangle()
+                                .fill(.clear)
+                                .overlay {
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color(red: 20/255, green: 160/255, blue: 255/255), lineWidth: 2)
+                                    Text("Log out")
+                                        .Pro(size: 21, color: Color(red: 20/255, green: 160/255, blue: 255/255))
+                                }
+                                .frame(height: 57)
+                                .cornerRadius(16)
+                                .padding(.horizontal)
+                        }
+                        
                         HStack(alignment: .top, spacing: 10) {
                             Text("Want to delete an account?")
                                 .Pro(size: 16, color: Color(red: 86/255, green: 113/255, blue: 142/255))
@@ -257,6 +291,9 @@ struct BetSettingsView: View {
         }
         .fullScreenCover(isPresented: $betSettingsModel.isPhoto) {
             BetChoosePhotoView()
+        }
+        .fullScreenCover(isPresented: $isBack) {
+            BetTabBarView()
         }
         .fullScreenCover(isPresented: $betSettingsModel.isSign) {
             BetSignView()
@@ -287,6 +324,7 @@ struct BetSettingsView: View {
                 showAlert = true
                 betSettingsModel.isSign = true
                 UserDefaultsManager().saveLoginStatus(false)
+                UserDefaultsManager().clearAllUserData()
             case .failure(let error):
                 alertMessage = "Failed to delete account: \(error.localizedDescription)"
                 showAlert = true
@@ -296,10 +334,10 @@ struct BetSettingsView: View {
     
     private func areAllFieldsFilled() -> Bool {
         return !betSettingsModel.name.trimmingCharacters(in: .whitespaces).isEmpty &&
-               !betSettingsModel.city.trimmingCharacters(in: .whitespaces).isEmpty &&
-               !betSettingsModel.weaponType.trimmingCharacters(in: .whitespaces).isEmpty &&
-               !betSettingsModel.level.trimmingCharacters(in: .whitespaces).isEmpty &&
-               !betSettingsModel.email.trimmingCharacters(in: .whitespaces).isEmpty
+        !betSettingsModel.city.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !betSettingsModel.weaponType.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !betSettingsModel.level.trimmingCharacters(in: .whitespaces).isEmpty &&
+        !betSettingsModel.email.trimmingCharacters(in: .whitespaces).isEmpty
     }
 }
 

@@ -61,7 +61,8 @@ struct BetOnboardingView: View {
                         }
                     }
                 }
-                .padding(.top, UIScreen.main.bounds.width > 900 ? 1000 : UIScreen.main.bounds.width > 600 ? 850 : 450)
+                .padding(.top, UIScreen.main.bounds.width > 900 ? 1000 : UIScreen.main.bounds.width > 600 ? 850 :
+                            UIScreen.main.bounds.width > 430 ? 450 : 370)
             }
             .scrollDisabled(UIScreen.main.bounds.width > 380  ? true : false)
         }

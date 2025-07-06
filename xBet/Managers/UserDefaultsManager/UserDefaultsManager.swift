@@ -102,21 +102,86 @@ class UserDefaultsManager: ObservableObject {
         defaults.removeObject(forKey: "id")
     }
     
+    func saveCity(_ city: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(city, forKey: "city")
+    }
+    
+    func getCity() -> String? {
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "city")
+    }
+    
+    func deleteCity() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "city")
+    }
+    
+    func saveWeapon(_ weapon: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(weapon, forKey: "weapon")
+    }
+    
+    func getWeapon() -> String? {
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "weapon")
+    }
+    
+    func deleteWeapon() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "weapon")
+    }
+    
+    func saveLevel(_ level: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(level, forKey: "level")
+    }
+    
+    func getLevel() -> String? {
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "level")
+    }
+    
+    func deleteLevel() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "level")
+    }
+    
+    func saveImage(_ image: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(image, forKey: "image")
+    }
+    
+    func getImage() -> String? {
+        let defaults = UserDefaults.standard
+        return defaults.string(forKey: "image")
+    }
+    
+    func deleteImage() {
+        let defaults = UserDefaults.standard
+        defaults.removeObject(forKey: "image")
+    }
+    
     func clearAllUserData() {
-          let defaults = UserDefaults.standard
-          
-          let keysToRemove = [
-              "guest",
-              "isLoggedIn",
-              "currentEmail",
-              "password",
-              "name"
-          ]
-          
-          for key in keysToRemove {
-              defaults.removeObject(forKey: key)
-          }
+        let defaults = UserDefaults.standard
         
-          defaults.synchronize()
-      }
+        let keysToRemove = [
+            "guest",
+            "isLoggedIn",
+            "currentEmail",
+            "password",
+            "name",
+            "id",
+            "city",
+            "weapon",
+            "level",
+            "image"
+        ]
+        
+        for key in keysToRemove {
+            defaults.removeObject(forKey: key)
+        }
+        
+        defaults.synchronize()
+    }
 }

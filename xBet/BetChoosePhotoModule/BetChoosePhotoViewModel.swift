@@ -3,7 +3,7 @@ import SwiftUI
 class BetChoosePhotoViewModel: ObservableObject {
     let contact = BetChoosePhotoModel()
     
-    var currentAvatar: String = "ava3"
+    var currentAvatar: String = UserDefaultsManager().getImage() ?? "ava3"
     
     @Published var selectedIndex: Int
     

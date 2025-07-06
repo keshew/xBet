@@ -141,9 +141,12 @@ struct BetMainView: View {
                                     VStack(alignment: .leading, spacing: 10) {
                                     Text("Discussions")
                                             .ProBold(size: 24)
+                                            .lineLimit(1)
+                                            .minimumScaleFactor(0.7)
                                         
-                                        Text("Communicate on any\ntopic you want")
+                                        Text("Communicate on any topic you want")
                                             .Pro(size: 16, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                            .multilineTextAlignment(.leading)
                                     }
                                     .padding(30)
                                     

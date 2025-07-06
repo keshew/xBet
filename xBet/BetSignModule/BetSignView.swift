@@ -195,7 +195,7 @@ struct BetSignView: View {
             return
         }
         
-        let arrayOfImage = ["avaOpponent", "ava2", "ava3", "ava4", "ava5", "ava6", "ava7", "ava8", "ava9"]
+        let arrayOfImage = ["avaOpponent", "ava2", "ava3", "ava4", "ava5", "ava6", "ava7", "ava8", "ava9"].randomElement()!
         
         NetworkManager().registration(
             name: betSignModel.name,
@@ -204,7 +204,7 @@ struct BetSignView: View {
             level: betSignModel.level,
             email: betSignModel.email,
             password: betSignModel.password,
-            picture: arrayOfImage.randomElement()!
+            picture: arrayOfImage
         ) { result in
             DispatchQueue.main.async {
                 switch result {
@@ -217,7 +217,11 @@ struct BetSignView: View {
                         UserDefaultsManager().saveCurrentEmail(betSignModel.email)
                         UserDefaultsManager().savePassword(betSignModel.password)
                         UserDefaultsManager().saveName(betSignModel.name)
+                        UserDefaultsManager().saveCity(betSignModel.city)
+                        UserDefaultsManager().saveLevel(betSignModel.level)
+                        UserDefaultsManager().saveWeapon(betSignModel.weaponType)
                         UserDefaultsManager().saveLoginStatus(true)
+                        UserDefaultsManager().saveImage(arrayOfImage)
                         betSignModel.isTab = true
                     } else {
                         alertMessage = "Unexpected server response"

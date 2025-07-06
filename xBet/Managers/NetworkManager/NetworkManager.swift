@@ -134,6 +134,16 @@ class NetworkManager {
         request(params: params, completion: completion)
     }
     
+    // MARK: - Upload Avatar Image
+    func uploadAvatarImage(userId: String, imageBase64: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let params: [String: Any] = [
+            "method": "upload_avatar_image",
+            "user_id": userId,
+            "image_base64": imageBase64
+        ]
+        request(params: params, completion: completion)
+    }
+
     // MARK: - Add Sparring
     func addSparring(userId: String, dayOfWeek: String, time: String, place: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let params: [String: Any] = [

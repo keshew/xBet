@@ -12,6 +12,9 @@ class BetSettingsViewModel: ObservableObject {
     @Published var picture: String? = nil
     @Published var isSign = false
     @Published var isLogin = false
+    @Published var pickedImage: UIImage? = nil
+      @Published var avatarImageName: String? = UserDefaultsManager().getImage()
+    
     @Published var isNotif: Bool {
         didSet {
             UserDefaults.standard.set(isNotif, forKey: "isNotif")
@@ -27,6 +30,20 @@ class BetSettingsViewModel: ObservableObject {
     init() {
         self.isNotif = UserDefaults.standard.bool(forKey: "isNotif")
         self.isEmail = UserDefaults.standard.bool(forKey: "isEmail")
+        
+        if let savedImage = loadImageFromUserDefaults(key: "selectedPhoto") {
+            _pickedImage = Published(initialValue: savedImage)
+            UserDefaultsManager().deleteImage()
+        } else {
+            _pickedImage = Published(initialValue: nil)
+        }
+    }
+    
+    func loadImageFromUserDefaults(key: String) -> UIImage? {
+        if let data = UserDefaults.standard.data(forKey: key) {
+            return UIImage(data: data)
+        }
+        return nil
     }
     
     func updateProfile(completion: @escaping (Result<Void, Error>) -> Void) {
