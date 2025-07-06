@@ -7,6 +7,11 @@ class BetTrainViewModel: ObservableObject {
     @Published var isMessageList = false
     @Published var selectedUser: User? = nil
     
+    func loadPracticesAndSparrings(userId: String) {
+        loadPractices(userId: userId)
+        loadSparrings(userId: userId)
+    }
+    
     func loadPractices(userId: String) {
         NetworkManager().getPractices(userId: userId) { [weak self] result in
             DispatchQueue.main.async {
@@ -47,6 +52,26 @@ class BetTrainViewModel: ObservableObject {
                 case .failure(let error):
                     print("Failed to load users: \(error.localizedDescription)")
                     self?.users = []
+                }
+            }
+        }
+    }
+    
+    func loadSparrings(userId: String) {
+        NetworkManager().getSparrings(userId: userId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let error = json["error"] as? String {
+                        print("Error loading sparrings: \(error)")
+                    } else if let sparringsArray = json["sparrings"] as? [[String: Any]] {
+                        let sparrings = sparringsArray.enumerated().compactMap { index, sparringDict in
+                            Practice(sparringJson: sparringDict, index: index)
+                        }
+                        self?.practices.append(contentsOf: sparrings)
+                    }
+                case .failure(let error):
+                    print("Failed to load sparrings: \(error.localizedDescription)")
                 }
             }
         }

@@ -266,6 +266,26 @@ class NetworkManager {
         request(params: params, completion: completion)
     }
     
+    // MARK: - Get Sparring Invites
+    /// Получить все приглашения на спарринг, адресованные конкретному пользователю
+    func getSparringInvites(userId: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let params: [String: Any] = [
+            "method": "get_sparring_invites",
+            "user_id": userId
+        ]
+        request(params: params, completion: completion)
+    }
+    
+    // MARK: - Get Rejected Sparring Invites
+    /// Получить все отклонённые приглашения, отправленные конкретным пользователем
+    func getRejectedSparringInvites(fromUserId: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let params: [String: Any] = [
+            "method": "get_rejected_sparring_invites",
+            "from_user_id": fromUserId
+        ]
+        request(params: params, completion: completion)
+    }
+    
     // MARK: - Private Request Helper
     private func request(params: [String: Any], completion: @escaping (Result<[String: Any], Error>) -> Void) {
         guard let url = URL(string: "https://sparringteams.cyou/app.php") else {

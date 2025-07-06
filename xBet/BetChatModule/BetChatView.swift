@@ -15,9 +15,24 @@ struct BetChatView: View {
     @State private var text: String = ""
     @State private var show = false
     @State private var isFinish = false
+    
+    @State private var sparringInvites: [[String: Any]] = []
+    
+    @State var isShowAgree = false
+    @State var isShowNo = false
+    
     @Environment(\.presentationMode) var presentationMode
+    
     let user: User
     
+    var pendingInvites: [[String: Any]] {
+        sparringInvites.filter { invite in
+            if let accepted = invite["accepted"] as? Bool? {
+                return accepted == nil
+            }
+            return true
+        }
+    }
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -101,22 +116,66 @@ struct BetChatView: View {
                     .padding(.top, 8)
                 }
                 
-                Button(action: {
-                    withAnimation {
-                        show = true
+                if pendingInvites.isEmpty {
+                    Button(action: {
+                        withAnimation {
+                            show = true
+                        }
+                    }) {
+                        Text("Suggest a user event")
+                            .Pro(size: 18, color: Color(red: 56/255, green: 164/255, blue: 255/255))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(Color(red: 56/255, green: 164/255, blue: 255/255), lineWidth: 1)
+                            )
                     }
-                }) {
-                    Text("Suggest a user event")
-                        .Pro(size: 18, color: Color(red: 56/255, green: 164/255, blue: 255/255))
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color(red: 56/255, green: 164/255, blue: 255/255), lineWidth: 1)
-                        )
+                    .padding(.horizontal)
+                    .padding(.bottom, -20)
+                } else {
+                    let invite = pendingInvites[0]
+                    
+                    VStack(spacing: 15) {
+                        Rectangle()
+                            .fill(.gray.opacity(0.7))
+                            .frame(height: 0.7)
+                        
+                        Text("A user suggested event for you\nDo you agree?")
+                            .Pro(size: 18)
+                            .multilineTextAlignment(.center)
+                        
+                        HStack {
+                            Button(action: {
+                                respondToInvite(inviteId: invite["id"] as? String, accepted: true)
+                            }) {
+                                Rectangle()
+                                    .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
+                                    .frame(height: 54)
+                                    .cornerRadius(12)
+                                    .overlay {
+                                        Text("Yes")
+                                            .Pro(size: 18)
+                                    }
+                            }
+                            
+                            Button(action: {
+                                respondToInvite(inviteId: invite["id"] as? String, accepted: false)
+                            }) {
+                                Rectangle()
+                                    .fill(Color(red: 56/255, green: 164/255, blue: 255/255))
+                                    .frame(height: 54)
+                                    .cornerRadius(12)
+                                    .overlay {
+                                        Text("No")
+                                            .Pro(size: 18)
+                                    }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.bottom, -20)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, -20)
                 
                 Rectangle()
                     .fill(Color(red: 33/255, green: 85/255, blue: 132/255))
@@ -141,10 +200,10 @@ struct BetChatView: View {
                     .ignoresSafeArea(edges: .bottom)
                     .offset(y: 40)
             }
-            .blur(radius: show ? 5 : isFinish ? 5 : 0)
+            .blur(radius: show ? 5 : isFinish ? 5 : isShowNo ? 5 : isShowAgree ? 5 : 0)
             
             if show {
-                BetSuggestSparringView(isFinish: $isFinish, showAddScheduleView: $show)
+                BetSuggestSparringView(isFinish: $isFinish, showAddScheduleView: $show, fromUserId: UserDefaultsManager().getID() ?? "", toUserId: user.id)
                     .frame(height: 650)
                     .transition(.move(edge: .bottom))
                     .zIndex(1)
@@ -163,9 +222,36 @@ struct BetChatView: View {
                         hideModalAfterDelay()
                     }
             }
+            
+            if isShowNo {
+                Image(.discagree)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 230)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 340)
+                    .transition(.opacity)
+                    .onAppear {
+                        hideModalAfterDelay()
+                    }
+            }
+            
+            if isShowAgree {
+                Image(.agree)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(height: 230)
+                    .padding(.horizontal, 40)
+                    .padding(.bottom, 340)
+                    .transition(.opacity)
+                    .onAppear {
+                        hideModalAfterDelay()
+                    }
+            }
         }
         .onAppear() {
             loadMessages()
+            loadSparringInvites()
         }
     }
     
@@ -173,9 +259,58 @@ struct BetChatView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             withAnimation {
                 isFinish = false
+                isShowAgree = false
+                isShowNo = false
             }
         }
     }
+    
+    func respondToInvite(inviteId: String?, accepted: Bool) {
+        guard let inviteId = inviteId else { return }
+        
+        NetworkManager().respondInvite(inviteId: inviteId, accepted: accepted) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let success = json["success"] as? String {
+                        print("Invite response saved: \(success)")
+                        sparringInvites.removeAll { $0["id"] as? String == inviteId }
+                        
+                        if accepted {
+                            isShowAgree = true
+                            
+                            if let invite = sparringInvites.first(where: { $0["id"] as? String == inviteId }) {
+                                let dayOfWeek = invite["day_of_week"] as? String ?? ""
+                                let place = invite["place"] as? String ?? ""
+                                let time = ""
+                                let fromUserId = invite["from_user_id"] as? String ?? ""
+                                
+                                NetworkManager().addSparring(userId: fromUserId, dayOfWeek: dayOfWeek, time: time, place: place) { sparringResult in
+                                    DispatchQueue.main.async {
+                                        switch sparringResult {
+                                        case .success(let sparringJson):
+                                            print("Sparring created: \(sparringJson)")
+                                        case .failure(let error):
+                                            print("Failed to create sparring: \(error.localizedDescription)")
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        } else {
+                            isShowNo = true
+                        }
+                        
+                    } else if let error = json["error"] as? String {
+                        print("Error responding to invite: \(error)")
+                    }
+                case .failure(let error):
+                    print("Failed to respond to invite: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
     
     func loadMessages() {
         NetworkManager().getMessages(userId: UserDefaultsManager().getID() ?? "", withUserId: user.id) { result in
@@ -191,6 +326,25 @@ struct BetChatView: View {
                     }
                 case .failure(let error):
                     print("Failed to load messages: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func loadSparringInvites() {
+        NetworkManager().getSparringInvites(userId: UserDefaultsManager().getID() ?? "") { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let invites = json["invites"] as? [[String: Any]] {
+                        self.sparringInvites = invites
+                        print(UserDefaultsManager().getID()!)
+                    } else {
+                        self.sparringInvites = []
+                    }
+                case .failure(let error):
+                    print("Failed to load sparring invites: \(error.localizedDescription)")
+                    self.sparringInvites = []
                 }
             }
         }
@@ -220,19 +374,6 @@ struct BetChatView: View {
     }
 }
 
-struct RoundedCornerShape: Shape {
-    var radius: CGFloat = 16
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
-    }
-}
 
 #Preview {
     let previewUser = User(
@@ -248,42 +389,4 @@ struct RoundedCornerShape: Shape {
     BetChatView(user: previewUser)
 }
 
-struct CustomTextFiled2: View {
-    @Binding var text: String
-    @FocusState var isTextFocused: Bool
-    var placeholder: String
-    var body: some View {
-        ZStack(alignment: .leading) {
-            Rectangle()
-                .fill(Color(red: 24/255, green: 58/255, blue: 93/255))
-                .frame(height: 52)
-                .cornerRadius(12)
-                .padding(.horizontal, 0)
-            
-            TextField("", text: $text, onEditingChanged: { isEditing in
-                if !isEditing {
-                    isTextFocused = false
-                }
-            })
-            .autocorrectionDisabled()
-            .textInputAutocapitalization(.never)
-            .padding(.horizontal, 16)
-            .frame(height: 47)
-            .font(.custom("SFProDisplay-Regular", size: 15))
-            .cornerRadius(9)
-            .foregroundStyle(.white)
-            .focused($isTextFocused)
-            .padding(.horizontal, 0)
-            
-            if text.isEmpty && !isTextFocused {
-                Text(placeholder)
-                    .Pro(size: 16, color: Color(red: 141/255, green: 160/255, blue: 179/255))
-                    .frame(height: 52)
-                    .padding(.leading, 15)
-                    .onTapGesture {
-                        isTextFocused = true
-                    }
-            }
-        }
-    }
-}
+

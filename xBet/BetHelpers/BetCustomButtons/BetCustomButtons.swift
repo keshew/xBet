@@ -321,3 +321,57 @@ struct PhotoPicker: UIViewControllerRepresentable {
         }
     }
 }
+
+struct CustomTextFiled2: View {
+    @Binding var text: String
+    @FocusState var isTextFocused: Bool
+    var placeholder: String
+    var body: some View {
+        ZStack(alignment: .leading) {
+            Rectangle()
+                .fill(Color(red: 24/255, green: 58/255, blue: 93/255))
+                .frame(height: 52)
+                .cornerRadius(12)
+                .padding(.horizontal, 0)
+            
+            TextField("", text: $text, onEditingChanged: { isEditing in
+                if !isEditing {
+                    isTextFocused = false
+                }
+            })
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .padding(.horizontal, 16)
+            .frame(height: 47)
+            .font(.custom("SFProDisplay-Regular", size: 15))
+            .cornerRadius(9)
+            .foregroundStyle(.white)
+            .focused($isTextFocused)
+            .padding(.horizontal, 0)
+            
+            if text.isEmpty && !isTextFocused {
+                Text(placeholder)
+                    .Pro(size: 16, color: Color(red: 141/255, green: 160/255, blue: 179/255))
+                    .frame(height: 52)
+                    .padding(.leading, 15)
+                    .onTapGesture {
+                        isTextFocused = true
+                    }
+            }
+        }
+    }
+}
+
+struct RoundedCornerShape: Shape {
+    var radius: CGFloat = 16
+    var corners: UIRectCorner = .allCorners
+    
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(
+            roundedRect: rect,
+            byRoundingCorners: corners,
+            cornerRadii: CGSize(width: radius, height: radius)
+        )
+        return Path(path.cgPath)
+    }
+}

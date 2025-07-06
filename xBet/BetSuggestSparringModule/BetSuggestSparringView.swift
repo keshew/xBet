@@ -11,9 +11,13 @@ struct BetSuggestSparringView: View {
     @State private var selectedTime: Date? = nil
     @State private var text = ""
     
+    // Добавляем ID пользователя, которому отправляем приглашение
+    let fromUserId: String
+    let toUserId: String
+    
     let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     
-        var isButtonEnabled: Bool {
+    var isButtonEnabled: Bool {
         selectedRecordingTime != nil && selectedTime != nil && !text.trimmingCharacters(in: .whitespaces).isEmpty
     }
     
@@ -157,12 +161,8 @@ struct BetSuggestSparringView: View {
                                 }
                                 .padding(.top)
                                 
-                                Button(action: {
-                                    withAnimation {
-                                        isFinish = true
-                                        showAddScheduleView = false
-                                    }
-                                }) {
+                                Button(action: sendInvitation) // вызываем функцию отправки
+                                {
                                     Rectangle()
                                         .fill(Color(red: 126/255, green: 172/255, blue: 47/255))
                                         .overlay {
@@ -218,8 +218,59 @@ struct BetSuggestSparringView: View {
         }
         .cornerRadius(16)
     }
+    
+    func sendInvitation() {
+        guard let dayIndex = selectedRecordingTime,
+              let time = selectedTime else {
+            return
+        }
+        
+        let day = days[dayIndex]
+        
+        // Форматируем дату + время в строку, например "2025-07-06 16:30"
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let dateString = formatter.string(from: time)
+        
+        // Можно отдельно время, если нужно
+        formatter.dateFormat = "HH:mm"
+        
+        // Собираем дату в формате, который ожидает сервер (например, "2025-07-06")
+        // Для вашего API дата отдельно, время отдельно, но в запросе есть только date, day_of_week и place
+        // В PHP-коде invite_sparring принимает day_of_week, date и place
+        
+        NetworkManager().inviteSparring(
+            fromUserId: fromUserId,
+            toUserId: toUserId,
+            dayOfWeek: day,
+            date: dateString,
+            place: text.trimmingCharacters(in: .whitespacesAndNewlines)
+        ) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let json):
+                    if let success = json["success"] as? String {
+                        print("Invitation sent: \(success)")
+                        withAnimation {
+                            isFinish = true
+                            showAddScheduleView = false
+                        }
+                    } else if let error = json["error"] as? String {
+                        print("Error sending invitation: \(error)")
+                    }
+                case .failure(let error):
+                    print("Failed to send invitation: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 #Preview {
-    BetSuggestSparringView(isFinish: .constant(false), showAddScheduleView: .constant(false))
+    BetSuggestSparringView(
+        isFinish: .constant(false),
+        showAddScheduleView: .constant(false),
+        fromUserId: "user_12345",
+        toUserId: "user_67890"
+    )
 }

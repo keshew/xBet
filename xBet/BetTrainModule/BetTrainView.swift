@@ -90,26 +90,44 @@ struct BetTrainView: View {
                                                                 .overlay {
                                                                     VStack(spacing: 20) {
                                                                         HStack {
-                                                                            Text("Practice on \(training.dayOfWeek)")
+                                                                            Text(training.isSparring ? "Sparring on \(training.dayOfWeek)" : "Practice on \(training.dayOfWeek)")
                                                                                 .Pro(size: 23)
-                                                                            
                                                                             Spacer()
                                                                         }
                                                                         
+                                                                        if training.isSparring, let opponent = training.opponentName, !opponent.isEmpty {
+                                                                            HStack {
+                                                                                Text("Opponent:")
+                                                                                    .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                                Spacer()
+                                                                                Text(opponent)
+                                                                                    .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                            }
+                                                                        }
+                                                                        
                                                                         HStack {
-                                                                            Text("\(training.dayOfWeek)")
+                                                                            Text(training.dayOfWeek)
                                                                                 .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
                                                                             Spacer()
-                                                                            Text("\(training.time)")
-                                                                                .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                        }
+                                                                        
+                                                                        if let place = training.place, !place.isEmpty {
+                                                                            HStack {
+                                                                                Text("Place:")
+                                                                                    .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                                Spacer()
+                                                                                Text(place)
+                                                                                    .Pro(size: 14, color: Color(red: 191/255, green: 194/255, blue: 195/255))
+                                                                            }
                                                                         }
                                                                     }
                                                                     .padding(.horizontal)
                                                                 }
                                                         }
-                                                        .frame(width: 270, height: 100)
+                                                        .frame(width: 270, height: 110)
                                                         .cornerRadius(16)
                                                 }
+
                                             }
                                         }
                                         .padding(.horizontal)
@@ -258,7 +276,7 @@ struct BetTrainView: View {
         }
         .onAppear {
             if !UserDefaultsManager().isGuest() {
-                betTrainModel.loadPractices(userId: UserDefaultsManager().getID() ?? "")
+                betTrainModel.loadPracticesAndSparrings(userId: UserDefaultsManager().getID() ?? "")
                 betTrainModel.loadUsers()
             }
         }
