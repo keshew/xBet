@@ -51,11 +51,11 @@ class BetSettingsViewModel: ObservableObject {
         
         NetworkManager().editProfile(
             userId: userId,
-            name: name.isEmpty ? nil : name,
-            city: city.isEmpty ? nil : city,
-            weapon: weaponType.isEmpty ? nil : weaponType,
-            level: level.isEmpty ? nil : level,
-            newEmail: email.isEmpty ? nil : email,
+            name: name.isEmpty ? UserDefaultsManager().getName() : name,
+            city: city.isEmpty ? UserDefaultsManager().getCity() : city,
+            weapon: weaponType.isEmpty ? UserDefaultsManager().getWeapon() : weaponType,
+            level: level.isEmpty ? nil : UserDefaultsManager().getLevel(),
+            newEmail: email.isEmpty ? UserDefaultsManager().getEmail() : email,
             picture: picture
         ) { result in
             DispatchQueue.main.async {
@@ -63,13 +63,22 @@ class BetSettingsViewModel: ObservableObject {
                 case .success(let json):
                     if let success = json["success"] as? String {
                         print("Profile updated: \(success)")
-                        UserDefaultsManager().saveCurrentEmail(self.email)
-                        UserDefaultsManager().saveName(self.name)
+                        if !self.email.isEmpty {
+                            UserDefaultsManager().saveCurrentEmail(self.email)
+                        }
+                        if !self.name.isEmpty {
+                            UserDefaultsManager().saveName(self.name)
+                        }
+                        if !self.city.isEmpty {
+                            UserDefaultsManager().saveCity(self.city)
+                        }
+                        if !self.weaponType.isEmpty {
+                            UserDefaultsManager().saveWeapon(self.weaponType)
+                        }
+                        if !self.level.isEmpty {
+                            UserDefaultsManager().saveLevel(self.level)
+                        }
                         completion(.success(()))
-                    } else if let error = json["error"] as? String {
-                        completion(.failure(NSError(domain: error, code: 1)))
-                    } else {
-                        completion(.failure(NSError(domain: "Unknown error", code: 0)))
                     }
                 case .failure(let error):
                     completion(.failure(error))

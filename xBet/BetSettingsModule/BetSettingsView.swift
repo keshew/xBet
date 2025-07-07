@@ -219,20 +219,15 @@ struct BetSettingsView: View {
                 } else {
                     VStack(spacing: 15) {
                         Button(action: {
-                            if areAllFieldsFilled() {
-                                betSettingsModel.updateProfile { result in
-                                    switch result {
-                                    case .success():
-                                        alertMessage = "Profile updated successfully"
-                                        showAlert = true
-                                    case .failure(let error):
-                                        alertMessage = "Failed to update profile: \(error.localizedDescription)"
-                                        showAlert = true
-                                    }
+                            betSettingsModel.updateProfile { result in
+                                switch result {
+                                case .success():
+                                    alertMessage = "Profile updated successfully"
+                                    showAlert = true
+                                case .failure(let error):
+                                    alertMessage = "Failed to update profile: \(error.localizedDescription)"
+                                    showAlert = true
                                 }
-                            } else {
-                                alertMessage = "All fields must be filled"
-                                showAlert = true
                             }
                         }) {
                             Rectangle()
